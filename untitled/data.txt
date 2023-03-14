@@ -1,0 +1,111 @@
+#include <iostream>
+#include <string>
+#include <cctype>
+#include <iterator>
+#include <vector>
+#include <fstream>
+#include <sstream>
+#include "Sales_data.h"
+#include "Screen.h"
+using namespace std;
+istream &read(istream& is);
+
+struct PersonInfo
+{
+    string name;
+    vector<string> phones;
+};
+
+bool valid(const string &s)
+{
+    return true;
+}
+
+string format(const string &s)
+{
+    return s;
+}
+
+int main(int argc, char *argv[])
+{
+    string line, word;
+    vector<PersonInfo> people;
+    istringstream record;
+    if (argc != 2)
+    {
+        cerr << "没有文件" << endl;
+        return -1;
+    }
+
+    ifstream in(argv[1]);
+
+    if (!in)
+    {
+        cerr << "打开失败" << endl;
+        return -1;
+    }
+
+    while (getline(in, line))
+    {
+        PersonInfo info;
+        record.clear();
+        record.str(line);
+        record >> info.name;
+        while (record >> word)
+        {
+            info.phones.push_back(word);
+        }
+        people.push_back(info);
+    }
+
+    ostringstream os;
+    for (const auto &entry : people)
+    {
+        ostringstream formatted, badNames;
+        for (const auto &nums : entry.phones)
+        {
+            if (!valid(nums))
+            {
+                badNames << " " << nums;
+            }
+            else
+            {
+                formatted << " " << format(nums);
+            }
+        }
+
+        if (badNames.str().empty())
+        {
+            os << entry.name << " " << formatted.str() << endl;
+        }
+        else
+        {
+            cerr << entry.name << " " << badNames.str() << endl;
+        }
+        cout << os.str();
+        return 0;
+    }
+
+}
+
+istream &read(istream& is)
+{
+    string v;
+    while (is >> v, !is.eof())
+    {
+        if (is.bad())
+        {
+            throw runtime_error("流出错了");
+        }
+        if (is.fail())
+        {
+            cerr << "数据错误" << endl;
+            is.clear();
+            is.ignore(100, '\n');
+            continue;
+        }
+        cout << v << endl;
+    }
+    is.clear();
+    return is;
+}
