@@ -4,16 +4,31 @@
 #include <memory>
 #include <new>
 #include <istream>
+#include <fstream>
+#include "StrBlobptr.h"
 
 using namespace std;
 
 
 
-int main()
+int main(int argc, char *agrv[])
 {   
-    unique_ptr<string> p(new string("xudahaoshuai"));
-    unique_ptr<string> q(p.release());
-    unique_ptr<string> t(new string("dd"));
-    q.reset(t.release());
+    ifstream in(argv[1]);
+    if (!in)
+    {
+        cout << "open failed" << endl;
+        return -1;
+    }
+
+    StrBlob b;
+    string s;
+    while (getline(in, s))
+        b.push_back(s);
+
+    for (auto it = b.begin(); it != b.end(); it.incr())
+    {
+        cout << it.deref() << endl;
+    }
+
     return 0;
 }

@@ -10,6 +10,21 @@ using namespace std;
 class StrBlob
 {
 public:
+    friend class StrBlobptr;
+    // 返回指向 头 尾元素的 StrBlobptr
+    StrBlobptr begin() {return StrBlobptr(*this);}
+    StrBlobptr end()
+    {
+        auto ret = StrBlobptr(*this, data->size());
+        return ret;
+    }
+    StrBlobptr begin() const {return StrBlobptr(*this);}
+    StrBlobptr end() const
+    {
+        auto ret = StrBlobptr(*this, data->size());
+        return ret;
+    }
+    
     typedef vector<string>::size_type size_type;
     StrBlob();
     StrBlob(initializer_list<string> il);
