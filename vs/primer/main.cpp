@@ -9,7 +9,6 @@ using namespace std;
 
 
 
-
 int main()
 {   
     unique_ptr<string> p(new string("xudahaoshuai"));
