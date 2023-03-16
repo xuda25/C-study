@@ -5,6 +5,11 @@
         "forward_list": "cpp",
         "list": "cpp",
         "vector": "cpp",
-        "string_view": "cpp"
-    }
+        "string_view": "cpp",
+        "new": "cpp",
+        "random": "cpp",
+        "ostream": "cpp",
+        "fstream": "cpp"
+    },
+    "cmake.sourceDirectory": "${workspaceFolder}/clion"
 }

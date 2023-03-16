@@ -10,7 +10,7 @@ using namespace std;
 
 
 int main(int argc, char *agrv[])
-{
+{   
     allocator<string> alloc;
     auto p = alloc.allocate(2);
     string s;
@@ -19,7 +19,7 @@ int main(int argc, char *agrv[])
     {
         *(q++) = s;
     }
-
+    
     size_t size = q - p;
 
     for (int i = 0; i < size; ++i)

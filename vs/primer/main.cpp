@@ -1,34 +1,37 @@
 #include <iostream>
-#include "StrBlob.h"
 #include <vector>
 #include <memory>
 #include <new>
 #include <istream>
 #include <fstream>
-#include "StrBlobptr.h"
-
+#include <cstring>
 using namespace std;
 
 
 
 int main(int argc, char *agrv[])
 {   
-    ifstream in(argv[1]);
-    if (!in)
-    {
-        cout << "open failed" << endl;
-        return -1;
-    }
-
-    StrBlob b;
+    allocator<string> alloc;
+    auto p = alloc.allocate(2);
     string s;
-    while (getline(in, s))
-        b.push_back(s);
-
-    for (auto it = b.begin(); it != b.end(); it.incr())
+    auto q = p;
+    while (cin >> s && q < p + 2)
     {
-        cout << it.deref() << endl;
+        *(q++) = s;
+    }
+    
+    size_t size = q - p;
+
+    for (int i = 0; i < size; ++i)
+    {
+        cout << p[i] << endl;
     }
 
+    while (q != p)
+    {
+        alloc.destroy(--q);
+    }
+
+    alloc.deallocate(p, 2);
     return 0;
 }
