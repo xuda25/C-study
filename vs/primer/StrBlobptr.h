@@ -11,6 +11,8 @@ class StrBlobptr
 public:
     StrBlobptr() : curr(0) {}
     StrBlobptr(StrBlob &a, size_t sz = 0) : wptr(a.data), curr(sz) {}
+    // 使得StrBlobptr适用于const
+    StrBlobptr(const StrBlob &a, size_t sz = 0) : wptr(a.data), curr(sz){}
     string &deref() const;
     StrBlobptr &incr();
 
