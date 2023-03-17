@@ -11,7 +11,8 @@
         "ostream": "cpp",
         "fstream": "cpp",
         "string": "cpp",
-        "stack": "cpp"
+        "stack": "cpp",
+        "iosfwd": "cpp"
     },
     "cmake.sourceDirectory": "${workspaceFolder}/clion"
 }
