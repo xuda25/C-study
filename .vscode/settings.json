@@ -9,7 +9,9 @@
         "new": "cpp",
         "random": "cpp",
         "ostream": "cpp",
-        "fstream": "cpp"
+        "fstream": "cpp",
+        "string": "cpp",
+        "stack": "cpp"
     },
     "cmake.sourceDirectory": "${workspaceFolder}/clion"
 }
