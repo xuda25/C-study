@@ -5,33 +5,58 @@
 #include <istream>
 #include <fstream>
 #include <cstring>
+#include <stack>
 using namespace std;
 
+class Solution {
+public:
+    int evalRPN(vector<string>& tokens) {
+        stack<string> st;
+        int res;
+        int tem;
+        for (int i = 0; i < tokens.size(); ++i)
+        {
+            if (isdigit(tokens[i][0]))
+            {
+                st.push(tokens[i]);
+            }
+            else
+            {
+                tem = stoi(st.top());
+                st.pop();
+                res = stoi(st.top());
+                st.pop();
 
+                if (tokens[i][0] == '+')
+                {
+                    res += tem;
+                    st.push(to_string(res));
+                }
+                else if (tokens[i][0] == '-')
+                {
+                    res -= tem;
+                    st.push(to_string(res));
+                }
+                else if (tokens[i][0] == '*')
+                {
+                    res *= tem;
+                    st.push(to_string(res));
+                }
+                else if (tokens[i][0] == '/')
+                {
+                    res /= tem;
+                    st.push(to_string(res));
+                }
+            }
+        }
+        return stoi(st.top());
+    }
+};
 
-int main(int argc, char *agrv[])
+int main()
 {
-    allocator<string> alloc;
-    auto p = alloc.allocate(2);
-    string s;
-    auto q = p;
-    while (cin >> s && q != p + 2)
-    {
-        *(q++) = s;
-    }
-
-    size_t size = q - p;
-
-    for (int i = 0; i < size; ++i)
-    {
-        cout << p[i] << endl;
-    }
-
-    while (q != p)
-    {
-        alloc.destroy(--q);
-    }
-
-    alloc.deallocate(p, 2);
-    return 0;
+    vector<string> a = {"10","6","9","3","+","-11","*","/","*","17","+","5","+"};
+    int aa = 10;
+    double b =aa;
+    cout << b;
 }
