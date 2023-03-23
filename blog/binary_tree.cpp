@@ -256,6 +256,86 @@ AVL *rotata(AVL *node)
     return node;
 }
 
+/*AVL树递归插入节点的辅助方法*/
+AVL *insertHelper(AVL *node, int val)
+{
+    if (node == nullptr) return new AVL(val);
+
+    if (val < node->val)
+        node->left = insertHelper(node->left, val);
+    else if (val > node->val)
+        node->right = insertHelper(node->right, val);
+    else 
+        return node;
+    updateHeight(node);
+    node = rotata(node);
+
+    return node;
+}
+
+AVL *insert(AVL *root, int val)
+{
+    root = insertHelper(root, val);
+    return root;
+}
+
+/*删除节点*/
+
+AVL *getInOrderNext(AVL *root)
+{
+    if (root == nullptr) return nullptr;
+
+    while (root->left != nullptr)
+        root = root->left;
+    return root;
+}
+
+
+AVL * removeHelper(AVL *root, int val)
+{
+    if (root == nullptr)
+        return nullptr;
+
+    if (val < root->val)
+        root->left = removeHelper(root->left, val);
+    else if (val > root->val)
+        root->right = removeHelper(root->right, val);
+    else
+    {
+        if (root->left == nullptr || root->right == nullptr)
+        {
+            AVL *child = root->left != nullptr ? root->left : root->right;
+            if (child == nullptr) //没有子节点
+            {
+                delete root;
+                return nullptr;
+            }
+            else  //1个子节点
+            {
+                delete root;
+                return child;
+            }
+        }
+        else
+        {
+            AVL *tem = getInOrderNext(root->right);
+            int temVal = tem->val;
+            root->right = removeHelper(root->right, tem->val);
+            root->val = temVal;
+        }
+    }
+    updateHeight(root);
+    root = rotata(root);
+    
+    return root;
+}
+
+AVL *remove(AVL *root, int val)
+{
+    root = removeHelper(root, val);
+    return root;
+}
+
 int main()
 {
     /*初始化节点*/
