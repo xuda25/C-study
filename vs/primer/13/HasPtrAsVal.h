@@ -12,13 +12,19 @@ public:
     HasPtr(string na) : ps(new string(na)), i(0) {}
     HasPtr(HasPtr &hp)
     {
-        *ps = *hp.ps;
+        ps = (new string(*hp.ps));
         i = hp.i;
-        return *this;
     }
 
-    HasPtr &operator= (HasPtr &)
-    {}
+    HasPtr &operator= (HasPtr &hh)
+    {
+        auto newp = new string(*hh.ps);
+        delete ps;
+        ps = newp;
+        i = hh.i;
+        return *this;
+    }
+    ~HasPtr() {delete ps;}
 private:
     string *ps;
     int i;

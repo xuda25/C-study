@@ -17,6 +17,7 @@
  * };
  */
 #include <vector>
+#include <stack>
 
 using namespace std;
 
@@ -43,24 +44,30 @@ public:
 
 */
 
-
+// µü´ú·½·¨
 class Solution {
 public:
-
-    void preOrder(TreeNode* root, vector<int> &ans)
+    vector<int> preorderTraversal(TreeNode *root)
     {
-        if (root == nullptr) return;
-        ans.push_back(root->val);
-        preOrder(root->left, ans);
-        preOrder(root->right, ans);
-    }
-
-    vector<int> preorderTraversal(TreeNode* root) {
+        stack<TreeNode*> st;
         vector<int> ans;
+        
+        if (root == nullptr)
+            return vector<int>();
+        
+        st.push(root);
 
-        preOrder(root, ans);
+        while (!st.empty())
+        {
+            ans.push_back(st.top()->val);
+            TreeNode *tem = st.top();
+            st.pop();
+            if (tem->right != nullptr) st.push(tem->right);
+            if (tem->left != nullptr) st.push(tem->left);
+        }
         return ans;
     }
+    
 };
 // @lc code=end
 
