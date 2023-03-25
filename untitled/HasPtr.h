@@ -1,8 +1,11 @@
-#ifndef HASPTR_H
-#define HASPTR_H
+//
+// Created by xuda25 on 2023/3/25.
+//
 
+#ifndef UNTITLED_HASPTR_H
+#define UNTITLED_HASPTR_H
 #include <string>
-#include <iostream>
+
 using namespace std;
 
 class HasPtr
@@ -22,21 +25,11 @@ public:
     {
         delete ps;
     }
-    // 在赋值运算符中使用swap
+    // 鍦ㄨ祴鍊艰繍绠楃涓娇鐢╯wap
     HasPtr &operator=(HasPtr hh)
     {
         swap(*this, hh);
         return *this;
-    }
-
-    bool operator<(const HasPtr &hh)
-    {
-        return *ps < *hh.ps;
-    }
-
-    void Out()
-    {
-        cout << *ps;
     }
 private:
     string *ps;
@@ -48,4 +41,4 @@ inline void swap(HasPtr &lhs, HasPtr &rhs)
     swap(lhs.ps, rhs.ps);
     swap(lhs.i, rhs.i);
 }
-#endif
+#endif //UNTITLED_HASPTR_H

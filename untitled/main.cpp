@@ -6,6 +6,7 @@
 #include <fstream>
 #include <cstring>
 #include <stack>
+#include "HasPtr.h"
 using namespace std;
 
 class Solution {
@@ -55,8 +56,9 @@ public:
 
 int main()
 {
-    vector<string> a = {"10","6","9","3","+","-11","*","/","*","17","+","5","+"};
-    int aa = 10;
-    double b =aa;
-    cout << b;
+    HasPtr a("xuxu");
+    HasPtr b("dada");
+    swap(a, b);
+    a.
+    return 0;
 }
