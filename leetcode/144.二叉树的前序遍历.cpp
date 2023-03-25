@@ -45,27 +45,66 @@ public:
 */
 
 // 迭代方法
+// class Solution {
+// public:
+//     vector<int> preorderTraversal(TreeNode *root)
+//     {
+//         stack<TreeNode*> st;
+//         vector<int> ans;
+        
+//         if (root == nullptr)
+//             return vector<int>();
+        
+//         st.push(root);
+
+//         while (!st.empty())
+//         {
+//             ans.push_back(st.top()->val);
+//             TreeNode *tem = st.top();
+//             st.pop();
+//             if (tem->right != nullptr) st.push(tem->right);
+//             if (tem->left != nullptr) st.push(tem->left);
+//         }
+//         return ans;
+//     }
+// };
+
+
+//统一的迭代法
 class Solution {
 public:
     vector<int> preorderTraversal(TreeNode *root)
     {
-        stack<TreeNode*> st;
         vector<int> ans;
-        
-        if (root == nullptr)
-            return vector<int>();
-        
-        st.push(root);
+        stack<TreeNode*> st;
 
+        TreeNode *cur = root;
+        if (cur != nullptr)
+            st.push(cur);
         while (!st.empty())
-        {
-            ans.push_back(st.top()->val);
-            TreeNode *tem = st.top();
-            st.pop();
-            if (tem->right != nullptr) st.push(tem->right);
-            if (tem->left != nullptr) st.push(tem->left);
+        {   
+            TreeNode *top = st.top();
+            if (top != nullptr)
+            {
+                st.pop();
+
+                if (top->right) st.push(top->right);
+
+                if (top->left) st.push(top->left);
+
+                st.push(top);
+                st.push(nullptr);
+
+            }
+            else
+            {
+                st.pop();
+                ans.push_back(st.top()->val);
+                st.pop();
+            }
         }
         return ans;
+        
     }
     
 };

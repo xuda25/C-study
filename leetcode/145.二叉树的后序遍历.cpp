@@ -20,26 +20,64 @@
 #include <stack>
 using namespace std;
 
+//普通迭代
+
+// class Solution {
+// public:
+//     vector<int> postorderTraversal(TreeNode* root) {
+//         if (root == nullptr)
+//             return vector<int>();
+//         stack<TreeNode*> st;
+//         vector<int> ans;
+        
+//         st.push(root);
+
+//         while (!st.empty())
+//         {   
+//             TreeNode *cur = st.top();
+//             st.pop();
+//             ans.push_back(cur->val);
+
+//             if (cur->left) st.push(cur->left);
+//             if (cur->right) st.push(cur->right);
+//         }
+//         reverse(ans.begin(), ans.end());
+//         return ans;
+//     }
+// };
+
+
+// 统一迭代方式
+
 class Solution {
 public:
     vector<int> postorderTraversal(TreeNode* root) {
-        if (root == nullptr)
-            return vector<int>();
-        stack<TreeNode*> st;
         vector<int> ans;
-        
-        st.push(root);
+        stack<TreeNode*> st;
+        if (root !=nullptr)
+            st.push(root);
 
         while (!st.empty())
-        {   
-            TreeNode *cur = st.top();
-            st.pop();
-            ans.push_back(cur->val);
+        {
+            TreeNode *node = st.top();
 
-            if (cur->left) st.push(cur->left);
-            if (cur->right) st.push(cur->right);
+            if (node != nullptr)
+            {
+                st.pop();
+                st.push(node);
+                st.push(nullptr);
+                if (node->right) st.push(node->right);
+                if (node->left) st.push(node->left);
+
+            }   
+            else
+            {
+                st.pop();
+                ans.push_back(st.top()->val);
+                st.pop();
+            }
+
         }
-        reverse(ans.begin(), ans.end());
         return ans;
     }
 };
