@@ -12,7 +12,9 @@
         "fstream": "cpp",
         "string": "cpp",
         "stack": "cpp",
-        "iosfwd": "cpp"
+        "iosfwd": "cpp",
+        "initializer_list": "cpp",
+        "utility": "cpp"
     },
     "cmake.sourceDirectory": "${workspaceFolder}/clion"
 }

@@ -11,7 +11,7 @@ public:
     friend void swap(HasPtr &, HasPtr &);
 
     HasPtr(const string &s = string()) : ps(new string(s)), i(0) {}
-
+    HasPtr(HasPtr&& p) noexcept : ps(p.ps), i(p.i) {p.ps = 0;}
     HasPtr &operator=(HasPtr &hp)
     {
         ps = hp.ps;
@@ -25,7 +25,7 @@ public:
     // 在赋值运算符中使用swap
     HasPtr &operator=(HasPtr hh)
     {
-        swap(*this, hh);
+        swap(*this, hh);/
         return *this;
     }
 
