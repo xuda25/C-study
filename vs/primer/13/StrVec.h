@@ -18,6 +18,7 @@ public:
     StrVec& operator=(StrVec&&);
     ~StrVec(); //析构函数
     void push_back(const string&);
+    void push_back(string&&);
     size_t size() const {return first_free - elements;}
     size_t capacity() const {return cap - first_free;}
     size_t capacityall() const {return cap - elements;}
@@ -56,6 +57,12 @@ void StrVec::push_back(const string& s)
     chk_n_alloc();
     // 放入新元素  且first_free后移一位
     alloc.construct(first_free++, s);
+}
+
+void StrVec::push_back(string&& s)
+{
+    chk_n_alloc();
+    alloc.construct(first_free++, std::move(s));
 }
 
 // 范围拷贝函数  返回一个pair  分别是 新空间的 头 和 尾
@@ -120,7 +127,7 @@ StrVec::StrVec(StrVec&& s) noexcept : elements(s.elements), first_free(s.first_f
 
 StrVec& StrVec::operator=(StrVec&& rhs) noexcept
 {
-    if (this != rhs)
+    if (this != &rhs)
     {
         free();
         elements = rhs.elements;
@@ -137,17 +144,15 @@ void StrVec::reallocate()
     // 分配两倍空间
     auto newcapacity = size() ? 2 * size() : 1;
     // 开始分配
-    auto newdata = alloc.allocate(newcapacity);
+    auto first = alloc.allocate(newcapacity);
     // 一个指向新空间 一个指向就空间  进行数据的移动
-    auto dest = newdata; // 新数据 下一个位置
-    auto elem = elements;
-    for (size_t i = 0; i != size(); ++i)
-        alloc.construct(dest++, std::move(*elem++));  // 写的好啊   move  移动构造函数
+    // 使用移动迭代器
+    auto last = uninitialized_copy(make_move_iterator(begin()), make_move_iterator(end()), first);
 
     free();  // 释放旧空间
 
-    elements = newdata;
-    first_free = dest;
+    elements = first;
+    first_free = last;
     cap = elements + newcapacity;
 }
 

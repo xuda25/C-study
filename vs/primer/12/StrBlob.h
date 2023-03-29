@@ -32,6 +32,7 @@ public:
     bool enpty() const {return data->empty();}
     // 添加和删除元約1�7
     void push_back(const string &t) {data->push_back(t);}
+    void push_back(string&& t) {data->push_back(std::move(s));}
     void pop_back();
     // 元素访问
     string &front();

@@ -14,7 +14,8 @@ public:
     Message(const Message&);
     Message &operator=(const Message&);
     ~Message();
-
+    Message(Message&& m);
+    Message& operator=(Message&& rhs);
     // É¾³ı Ìí¼Ó²Ù×÷
     void remove(Folder&);
     void save(Folder&);
@@ -36,6 +37,8 @@ public:
         for (auto f : rhs.folders)
             f->addMsg(&rhs);
     }
+
+    void move_Folders(Message* m);
 private:
     string content;
     set<Folder*> folders;
@@ -90,4 +93,30 @@ private:
         return *this;
     }
 
+    void Message::move_Folders(Message* m)
+    {
+        folders = std::move(m->folders);
+        for (auto f : folders)
+        {
+            f->remMsg(m);
+            f->addMsg(this);
+        }
+        m->folders.clear();
+    }
+    
+    Message::Message(Message&& m) : content(std::move(m.content))
+    {
+        move_Folders(&m);
+    }
+
+    Message& Message::operator=(Message&& rhs)
+    {
+        if (this != &rhs)
+        {
+            remove_from_Folders();
+            content = std::move(rhs.content);
+            move_Folders(&rhs);
+        }
+        return *this;
+    }
 #endif

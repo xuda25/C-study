@@ -23,12 +23,22 @@ public:
         delete ps;
     }
     // 在赋值运算符中使用swap
-    HasPtr &operator=(HasPtr hh)
+    HasPtr &operator=(HasPtr& hh)
     {
-        swap(*this, hh);/
+        swap(*this, hh);
         return *this;
     }
-
+    HasPtr& operator=(HasPtr&& rhs)
+    {
+        if (this != &rhs)
+        {
+            delete ps;
+            ps = rhs.ps;
+            rhs.ps = nullptr;
+            rhs.i = 0;
+        }
+        return *this;
+    }
     bool operator<(const HasPtr &hh)
     {
         return *ps < *hh.ps;
