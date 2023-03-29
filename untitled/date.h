@@ -14,7 +14,9 @@ class date
 {
 public:
     friend ostream &operator<<(ostream &, const date&);
+    friend istream& operator>>(istream&, date& date);
     date() = default;
+    date() {}
     explicit date(string &ds);
     unsigned y() const {return year;}
     unsigned m() const {return month;}
@@ -125,5 +127,13 @@ ostream &operator<<(ostream &out, const date &ds)
 {
     out << ds.y() << "Äê" << ds.m() << "ÔÂ" << ds.d() << "ÈÕ" << endl;
     return out;
+}
+
+istream& operator>>(istream& is, date& da)
+{
+    is >> da.year >> da.month >> da.day;
+    if (!is)
+        da = date();
+    return is;
 }
 #endif //UNTITLED_DATE_H
