@@ -142,4 +142,6 @@ bool operator!=(const Sales_data& lhs, const Sales_data& rhs)
 {
     return !(lhs == rhs);
 }
+
+
 #endif //UNTITLED_SALES_DATA_H
