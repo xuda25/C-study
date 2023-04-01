@@ -15,13 +15,20 @@ class date
 public:
     friend ostream &operator<<(ostream &, const date&);
     friend istream& operator>>(istream&, date& date);
+    friend bool operator==(const date& d1, const date& d2);
+    friend bool operator!=(const date& d1, const date& d2);
+    friend bool operator<(const date& d1, const date&d2);
+    friend bool operator<=(const date& d1, const date&d2);
+    friend bool operator>(const date& d1, const date&d2);
+    friend bool operator>=(const date& d1, const date&d2);
+
     date() = default;
     date() {}
     explicit date(string &ds);
     unsigned y() const {return year;}
     unsigned m() const {return month;}
     unsigned d() const {return day;}
-
+    date& operator=(const date& d);
 private:
     unsigned year, month, day;
 };
@@ -135,5 +142,43 @@ istream& operator>>(istream& is, date& da)
     if (!is)
         da = date();
     return is;
+}
+
+bool operator==(const date& d1, const date& d2)
+{
+    return d1.year == d2.year && d1.month == d2.month && d1.day == d2.day;
+}
+
+bool operator!=(const date& d1, const date& d2)
+{
+    return !(d1 == d2);
+}
+
+bool operator<(const date& d1, const date& d2)
+{
+    return (d1.year < d2.year) || (d1.year == d2.year && d1.month < d2.month) || (d1.year == d2.year && d1.month == d2.month && d1.day < d2.day);
+}
+
+bool operator<=(const date& d1, const date& d2)
+{
+    return d1 == d2 || d1 < d2;
+}
+
+bool operator>(const date& d1, const date& d2)
+{
+    return !(d1 < d2);
+}
+
+bool operator>=(const date& d1, const date& d2)
+{
+    return d1 > d2 || d1 == d2;
+}
+
+date& date::operator=(const date& d)
+{
+    year = d.year;
+    month = d.month;
+    day = d.day;
+    return *this;
 }
 #endif //UNTITLED_DATE_H

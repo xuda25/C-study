@@ -9,6 +9,10 @@
 class StrBlobptr
 {
 public:
+    friend bool operator<(const StrBlobptr& s1, const StrBlobptr& s2);
+    friend bool operator<=(const StrBlobptr& s1, const StrBlobptr& s2);
+    friend bool operator>(const StrBlobptr& s1, const StrBlobptr& s2);
+    friend bool operator>=(const StrBlobptr& s1, const StrBlobptr& s2);
     StrBlobptr() : curr(0) {}
     StrBlobptr(StrBlob &a, size_t sz = 0) : wptr(a.data), curr(sz) {}
     // 使得StrBlobptr适用于const
@@ -46,6 +50,18 @@ StrBlobptr &StrBlobptr::incr()
     check(curr, "increment past end of StrBlobptr");
     ++curr;
     return *this; // this 是个指针
+}
+
+friend bool operator<(const StrBlobptr& s1, const StrBlobptr& s2)
+{
+    auto l = s1.wptr.lock(), r = s2.wptr.lock();
+    if (l == r)
+        if (!r)
+            return false;
+        else
+            return (lhs.curr < rhs.curr);
+    else
+        return false;
 }
 
 #endif

@@ -11,6 +11,10 @@ class StrBlob
 {
 public:
     friend class StrBlobptr;
+    friend bool operator<(const StrBlob& s1, const StrBlob& s2);
+    friend bool operator<=(const StrBlob& s1, const StrBlob& s2);
+    friend bool operator>(const StrBlob& s1, const StrBlob& s2);
+    friend bool operator>=(const StrBlob& s1, const StrBlob& s2);
     // 杩斿洖鎸囧悜 澶� 灏惧厓绱犵殑 StrBlobptr
     StrBlobptr begin() {return StrBlobptr(*this);}
     StrBlobptr end()
@@ -72,6 +76,26 @@ void StrBlob::pop_back()
 {
     check(0, "pop_back on empty StrBlob");
     data->pop_back();
+}
+
+bool operator<(const StrBlob& s1, const StrBlob& s2)
+{
+    return *s1.data < *s2.data;
+}
+
+bool operator<=(const StrBlob& s1, const StrBlob& s2)
+{
+    return *s1.data <= *s2.data;
+}
+
+bool operator>(const StrBlob& s1, const StrBlob& s2)
+{
+    return *s1.data > *s2.data;
+}
+
+bool operator>=(const StrBlob& s1, const StrBlob& s2)
+{
+    return *s1.data >= *s2.data;
 }
 
 #endif

@@ -10,6 +10,10 @@ using namespace std;
 class StrVec
 {
 public:
+    friend bool operator<(const StrVec& s1, const StrVec& s2);
+    friend bool operator<=(const StrVec& s1, const StrVec& s2);
+    friend bool operator>(const StrVec& s1, const StrVec& s2);
+    friend bool operator>=(const StrVec& s1, const StrVec& s2);
     StrVec() : elements(nullptr), first_free(nullptr), cap(nullptr) {}
     StrVec(initializer_list<string> il);
     StrVec(const StrVec&); //拷贝构造函数
@@ -17,6 +21,7 @@ public:
     StrVec(StrVec&& s) noexcept;
     StrVec& operator=(StrVec&&);
     ~StrVec(); //析构函数
+    StrVec& operator=(initializer_list<string> il);
     void push_back(const string&);
     void push_back(string&&);
     size_t size() const {return first_free - elements;}
@@ -198,4 +203,78 @@ void StrVec::resize(size_t n, const string& s)
             push_back(s);
 }
 
+bool operator<(const StrVec& s1, const StrVec& s2)
+{
+    for (auto p1 = s1.begin(), p2 = s2.begin(); p1 != s1.end() && p2 != s2.end(); ++p1, ++p2)
+    {
+        if (*p1 < *p2)
+            return true;
+        else if (*p1 > *p2)
+            return false;
+
+        if (p1 == s1.end() && p2 != s2.end())
+            return true;
+        else
+            return false;
+    }
+}
+
+bool operator<=(const StrVec& s1, const StrVec& s2)
+{
+    for (auto p1 = s1.begin(), p2 = s2.begin(); p1 != s1.end() && p2 != s2.end(); ++p1, ++p2)
+    {
+        if (*p1 < *p2)
+            return true;
+        else if (*p1 > *p2)
+            return false;
+
+        if (p1 == s1.end())
+            return true;
+        else
+            return false;
+    }
+}
+
+bool operator>(const StrVec& s1, const StrVec& s2)
+{
+    for (auto p1 = s1.begin(), p2 = s2.begin(); p1 != s1.end() && p2 != s2.end(); ++p1, ++p2)
+    {
+        if (*p1 > *p2)
+            return true;
+        else if (*p1 < *p2)
+            return false;
+
+        if (p1 != s1.end() && p2 == s2.end())
+            return true;
+        else
+            return false;
+    }
+}
+
+bool operator>=(const StrVec& s1, const StrVec& s2)
+{
+    for (auto p1 = s1.begin(), p2 = s2.begin(); p1 != s1.end() && p2 != s2.end(); ++p1, ++p2)
+    {
+        if (*p1 > *p2)
+            return true;
+        else if (*p1 < *p2)
+            return false;
+
+        if (p2 == s2.end())
+            return true;
+        else
+            return false;
+    }
+}
+
+StrVec& StrVec::operator=(initializer_list<string> il)
+{
+    auto data = alloc_n_copy(il.begin(), il.end());
+
+    free();
+
+    elements = data.first;
+    first_free = cap = data.second;
+    return *this;
+}
 #endif

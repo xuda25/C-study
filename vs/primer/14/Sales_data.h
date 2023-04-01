@@ -31,6 +31,8 @@ public:
     explicit Sales_data(istream &is) : Sales_data() { read(cin, *this);}
     Sales_data& operator+=(const Sales_data&);
     Sales_data& operator-=(const Sales_data&);
+    Sales_data& operator+=(const Sales_data&);
+    Sales_data& operator=(const string& isbn);
     string isbn() const
     {
         return bookNo;
@@ -143,5 +145,9 @@ bool operator!=(const Sales_data& lhs, const Sales_data& rhs)
     return !(lhs == rhs);
 }
 
-
+Sales_data& Sales_data::operator=(const string& isbn)
+{
+    bookNo = isbn;
+    return *this;
+}
 #endif //UNTITLED_SALES_DATA_H
