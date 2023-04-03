@@ -15,6 +15,10 @@ public:
     friend bool operator<=(const StrBlob& s1, const StrBlob& s2);
     friend bool operator>(const StrBlob& s1, const StrBlob& s2);
     friend bool operator>=(const StrBlob& s1, const StrBlob& s2);
+    
+    string& operator[](size_t n) {return (*data)[n];}
+    const string& operator[](size_t n) const {return (*data)[n];}
+    
     // 杩斿洖鎸囧悜 澶� 灏惧厓绱犵殑 StrBlobptr
     StrBlobptr begin() {return StrBlobptr(*this);}
     StrBlobptr end()

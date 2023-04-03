@@ -22,6 +22,8 @@ public:
     StrVec& operator=(StrVec&&);
     ~StrVec(); //Îö¹¹º¯Êý
     StrVec& operator=(initializer_list<string> il);
+    string& operator[](size_t n) {return elements[n];}
+    const string& operator[](size_t n) const {return elements[n];}
     void push_back(const string&);
     void push_back(string&&);
     size_t size() const {return first_free - elements;}

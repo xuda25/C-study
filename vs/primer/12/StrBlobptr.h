@@ -13,10 +13,27 @@ public:
     friend bool operator<=(const StrBlobptr& s1, const StrBlobptr& s2);
     friend bool operator>(const StrBlobptr& s1, const StrBlobptr& s2);
     friend bool operator>=(const StrBlobptr& s1, const StrBlobptr& s2);
+    StrBlobptr operator+(int n);
+    StrBlobptr operator-(int n);
+    string& operator[](size_t n) {return (*wptr.lock())[n];}
+    const string& operator[](size_t n) const {return (*wptr.lock())[n];}
+    StrBlobptr& operator++();
+    StrBlobptr& operator--();
+    StrBlobptr& operator++(int);
+    StrBlobptr& operator--(int);
+    string& operator*() const
+    {
+        auto p = check(curr, "dereference");
+        return (*p)[curr];
+    }
+    string* operator->() const
+    {
+        return &this->operator*();
+    }
     StrBlobptr() : curr(0) {}
-    StrBlobptr(StrBlob &a, size_t sz = 0) : wptr(a.data), curr(sz) {}
+    // StrBlobptr(StrBlob &a, size_t sz = 0) : wptr(a.data), curr(sz) {}
     // 使得StrBlobptr适用于const
-    StrBlobptr(const StrBlob &a, size_t sz = 0) : wptr(a.data), curr(sz){}
+    // StrBlobptr(const StrBlob &a, size_t sz = 0) : wptr(a.data), curr(sz){}
     string &deref() const;
     StrBlobptr &incr();
 
@@ -52,16 +69,45 @@ StrBlobptr &StrBlobptr::incr()
     return *this; // this 是个指针
 }
 
-friend bool operator<(const StrBlobptr& s1, const StrBlobptr& s2)
+StrBlobptr StrBlobptr::operator+(int n)
 {
-    auto l = s1.wptr.lock(), r = s2.wptr.lock();
-    if (l == r)
-        if (!r)
-            return false;
-        else
-            return (lhs.curr < rhs.curr);
-    else
-        return false;
+    auto ret = *this;
+    ret.curr += n;
+    return ret;
 }
 
+StrBlobptr StrBlobptr::operator-(int n)
+{
+    auto ret = *this;
+    ret.curr -= n;
+    return ret;
+}
+
+StrBlobptr& StrBlobptr::operator++(int)
+{
+    StrBlobptr ret = *this;
+    ++*this;
+    return ret;
+}
+
+StrBlobptr& StrBlobptr::operator--(int)
+{
+    StrBlobptr ret = *this;
+    --*this;
+    return ret;
+}
+
+StrBlobptr& StrBlobptr::operator++()
+{
+    check(curr, "incement past end");
+    ++curr;
+    return *this;
+}
+
+StrBlobptr& StrBlobptr::operator--()
+{
+    --curr;
+    check(curr, "decrease past end");
+    return *this;
+}
 #endif
