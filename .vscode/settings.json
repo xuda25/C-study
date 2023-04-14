@@ -14,7 +14,10 @@
         "stack": "cpp",
         "iosfwd": "cpp",
         "initializer_list": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "*.tcc": "cpp",
+        "unordered_map": "cpp",
+        "system_error": "cpp"
     },
     "cmake.sourceDirectory": "${workspaceFolder}/clion"
 }
