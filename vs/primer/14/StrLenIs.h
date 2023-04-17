@@ -21,6 +21,31 @@ private:
     int len;
 };
 
+class StrLenBetween
+{
+public:
+    StrLenBetween(int min, int max) : minLen(min), maxLen(max) {}
+    bool operator() (const string& str)
+    {
+        return str.size() >= minLen && str.size() <= maxLen;
+    }
+
+private:
+    int minLen;
+    int maxLen;
+};
+
+class StrNorShorterThan
+{
+public:
+    StrNorShorterThan(int min) : minLen(min) {}
+    bool operator()(const string& str)
+    {
+        return str.size() >= minLen;
+    }
+private:
+    int minLen;
+};
 
 void readStr(istream& is, vector<string>& vec)
 {
