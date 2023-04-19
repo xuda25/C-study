@@ -17,7 +17,8 @@
         "utility": "cpp",
         "*.tcc": "cpp",
         "unordered_map": "cpp",
-        "system_error": "cpp"
+        "system_error": "cpp",
+        "stdexcept": "cpp"
     },
     "cmake.sourceDirectory": "${workspaceFolder}/clion"
 }

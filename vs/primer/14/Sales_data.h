@@ -29,6 +29,8 @@ public:
     Sales_data() : Sales_data("", 0, 0) {}
     explicit Sales_data(string s) : Sales_data(s, 0, 0) {}
     explicit Sales_data(istream &is) : Sales_data() { read(cin, *this);}
+    explicit operator string() const {return bookNo;}
+    explicit operator double() const {return revenue;}
     Sales_data& operator+=(const Sales_data&);
     Sales_data& operator-=(const Sales_data&);
     Sales_data& operator+=(const Sales_data&);
@@ -64,7 +66,7 @@ Sales_data &Sales_data::combine(const Sales_data &rhs)
     return *this;
 }
 
-// 非成员接口
+// 锟角筹拷员锟接匡拷
 Sales_data add(const Sales_data &item1, const Sales_data &item2)
 {
     Sales_data sum = item1;

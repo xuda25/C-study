@@ -6,6 +6,7 @@
 #define UNTITLED_DATE_H
 #include <iostream>
 #include <string>
+#include <vector>
 #include <stdexcept>
 
 using namespace std;
@@ -25,6 +26,18 @@ public:
     date() = default;
     date() {}
     explicit date(string &ds);
+    explicit operator bool() const
+    {
+        vector<vector<int>> days_per_month = {
+            {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31},
+            {31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}
+        };
+        return 1 <= month && month <= 12 && 1 <= day && day <=days_per_month[isLeapYear() ? 1 : 0][month - 1];
+    }
+    bool isLeapYear() const
+    {
+        return (year % 4 ==0 && year % 100 != 0) || (year % 400 == 0);
+    }
     unsigned y() const {return year;}
     unsigned m() const {return month;}
     unsigned d() const {return day;}
@@ -34,36 +47,36 @@ private:
 };
 
 
-//  ÔÂ·ÝÈ«³Æ
+//  ï¿½Â·ï¿½È«ï¿½ï¿½
 const string month_name[] = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
-//  ÔÂ·Ý¼ò³Æ
+//  ï¿½Â·Ý¼ï¿½ï¿½
 const string month_abbr[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-//  Ã¿ÔÂÌìÊý
+//  Ã¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 const int days[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
 inline int get_month(string &ds, int &end_of_month)
 {
-    int i, j;  //i ÓÃÀ´±éÀú12¸öÔÂ·Ý  j ÓÃÀ´±éÀúÃ¿¸öÔÂ·Ý×Ö·û´®µÄ¸÷¸ö×Ö·û
+    int i, j;  //i ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½12ï¿½ï¿½ï¿½Â·ï¿½  j ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¿ï¿½ï¿½ï¿½Â·ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½Ä¸ï¿½ï¿½ï¿½ï¿½Ö·ï¿½
 
     for (i = 0; i != 12; ++i)
     {
         for (j = 0; j != month_abbr[i].size(); ++j)
         {
-            if (ds[j] != month_abbr[i][j])  // ²»Æ¥Åä
+            if (ds[j] != month_abbr[i][j])  // ï¿½ï¿½Æ¥ï¿½ï¿½
                 break;
         }
-        if (j == month_abbr[i].size())  //´ËÊ±ÔÂ·ÝÆ¥Åä
+        if (j == month_abbr[i].size())  //ï¿½ï¿½Ê±ï¿½Â·ï¿½Æ¥ï¿½ï¿½
             break;
     }
 
     if (i == 12)
-        throw invalid_argument("²»ÊÇºÏ·¨ÔÂ·ÝÃû");
+        throw invalid_argument("ï¿½ï¿½ï¿½ÇºÏ·ï¿½ï¿½Â·ï¿½ï¿½ï¿½");
 
 
     if (ds[j] == ' ' || ds[j] == ',')
     {
-        end_of_month = j + 1;  //ÔÂ·Ý½áÊøµÄÎ»ÖÃ
-        return i + 1;  //·µ»ØÔÂ·Ý
+        end_of_month = j + 1;  //ï¿½Â·Ý½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
+        return i + 1;  //ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½
     }
 
     for (; j < month_name[i].size(); ++j)
@@ -72,12 +85,12 @@ inline int get_month(string &ds, int &end_of_month)
             break;
     }
 
-    if (j == month_name[i].size() && (ds[j] == ' ' || ds[j] == ','))  // ´ËÊ¹ ÊÇÈ«³Æ
+    if (j == month_name[i].size() && (ds[j] == ' ' || ds[j] == ','))  // ï¿½ï¿½Ê¹ ï¿½ï¿½È«ï¿½ï¿½
     {
         end_of_month = j + 1;
         return i + 1;
     }
-    throw invalid_argument("²»ÊÇºÏ·¨µÄÔÂ·Ý");
+    throw invalid_argument("ï¿½ï¿½ï¿½ÇºÏ·ï¿½ï¿½ï¿½ï¿½Â·ï¿½");
 }
 
 inline int get_day(string &ds, unsigned month, int &p)
@@ -85,7 +98,7 @@ inline int get_day(string &ds, unsigned month, int &p)
     size_t q;
     int day = stoi(ds.substr(p), &q);
     if (day < 1 || day > days[month - 1])
-        throw invalid_argument("·Ç·¨½áÎ²ÄÚÈÝ");
+        throw invalid_argument("ï¿½Ç·ï¿½ï¿½ï¿½Î²ï¿½ï¿½ï¿½ï¿½");
     p += int(q);
     return day;
 }
@@ -95,7 +108,7 @@ inline int get_year(string &ds, int &p)
     size_t q;
     int year = stoi(ds.substr(p), &q);
     if (p + q < ds.size())
-        throw invalid_argument("·Ç·¨");
+        throw invalid_argument("ï¿½Ç·ï¿½");
     return year;
  }
 
@@ -104,14 +117,14 @@ inline int get_year(string &ds, int &p)
     int p;
     size_t q;
     if ((p = ds.find_first_of("1234567890")) == string::npos)
-        throw invalid_argument("Ã»ÓÐÊý×Ö£¬Êý¾ÝÒì³£");
+        throw invalid_argument("Ã»ï¿½ï¿½ï¿½ï¿½ï¿½Ö£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì³£");
 
     if (p > 0)
     {
         month = get_month(ds, p);
         day = get_day(ds, month, p);
         if (ds[p] != ',' && ds[p] != '/')
-            throw invalid_argument("·Ç·¨·Ö¸ô·û");
+            throw invalid_argument("ï¿½Ç·ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½");
         ++p;
         year = get_year(ds, p);
     }
@@ -120,19 +133,19 @@ inline int get_year(string &ds, int &p)
         month = stoi(ds, &q);
         p = q;
         if (month < 1 || month > 12)
-            throw invalid_argument("·Ç·¨ÔÂ·Ý");
+            throw invalid_argument("ï¿½Ç·ï¿½ï¿½Â·ï¿½");
         if (ds[p++] != ',' && ds[p] != '/')
-            throw invalid_argument("·Ç·¨¼ä¸ô·û");
+            throw invalid_argument("ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
         day = get_day(ds, month, p);
         if (ds[p++] != ',' && ds[p] != '/')
-            throw invalid_argument("·Ç·¨¼ä¸ô·û");
+            throw invalid_argument("ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
         year = get_year(ds, p);
     }
  }
 
 ostream &operator<<(ostream &out, const date &ds)
 {
-    out << ds.y() << "Äê" << ds.m() << "ÔÂ" << ds.d() << "ÈÕ" << endl;
+    out << ds.y() << "ï¿½ï¿½" << ds.m() << "ï¿½ï¿½" << ds.d() << "ï¿½ï¿½" << endl;
     return out;
 }
 
