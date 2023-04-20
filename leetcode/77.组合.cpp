@@ -5,30 +5,58 @@
  */
 
 // @lc code=start
+
+//未剪枝
+// class Solution {
+// public:
+//     vector<int> path;
+//     vector<vector<int>> res;
+//     void backTrack(int n, int k, int index)
+//     {
+//         if (path.size() == k)
+//         {
+//             res.push_back(path);
+//             return;
+//         }
+
+//         for (int i = index; i <= n; ++i)
+//         {
+//             path.push_back(i);
+//             backTrack(n, k, i + 1);
+//             path.pop_back();
+//         }
+//     }
+//     vector<vector<int>> combine(int n, int k) {
+//         backTrack(n, k, 1);
+//         return res;
+//     }
+// };
+
+//剪枝
 class Solution {
 public:
+    vector<int> path;
     vector<vector<int>> res;
-    void backTrack(vector<int>& state, vector<int>& choices, vector<vector<int>>& res)
-    {   
-        if (state.size() == 2)
+    void backTrack(int n, int k, int index)
+    {
+        if (path.size() == k)
         {
-            res.push_back();
+            res.push_back(path);
             return;
         }
 
-        for (int choice : choices)
+        for (int i = index; i <= n + 1 + path.size() - k; ++i)
         {
-            state.push_back(choice);
-
-            vector<int> newChoices(choices.begin() + 1, choices.end());
-            backTrack(state, newChoices, res);
-            state.pop_back();
+            path.push_back(i);
+            backTrack(n, k, i + 1);
+            path.pop_back();
         }
-
     }
     vector<vector<int>> combine(int n, int k) {
-
+        backTrack(n, k, 1);
+        return res;
     }
 };
+
 // @lc code=end
 
