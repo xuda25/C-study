@@ -17,6 +17,11 @@ protected:
 public:
     Quoto() = default;
     Quoto(const string &book, double sales_price) : bookNo(book), price(sales_price) {}
+    Quoto(const Quoto&) = default;
+    Quoto(Quoto&&) = default;
+    Quoto& operator=(const Quoto&) = default;
+    Quoto& operator=(Quoto&&) = default;
+    virtual ~Quoto() = default;
     string isbn() const {return bookNo;}
     virtual double net_price(size_t n) const {return n * price;}
     virtual void debug()
@@ -40,6 +45,7 @@ class Disc_quoto : public Quoto
 public:
     Disc_quoto() = default;
     Disc_quoto(const string& book, double price, size_t quan, double dis) : Quoto(book, price), quantity(quan), discount(dis) {}
+    Disc_quoto(const Disc_quoto& dq) : Quoto(dq) {quantity = dq.quantity; discount = dq.discount;}
     double net_price(size_t) const = 0; // 纯虚函数
 protected:
     size_t quantity = 0; // 购买量
@@ -69,6 +75,7 @@ class Bulk_quote : public Disc_quoto
 public:
     Bulk_quote() = default;
     Bulk_quote(const string& book, double price, size_t quan, double disc) : Disc_quoto(book, price, quan, disc) {}
+    Bulk_quote(const Bulk_quote& bq) : Disc_quoto(bq) {}
     double net_price(size_t) const override;
 };
 
