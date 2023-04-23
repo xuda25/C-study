@@ -5,6 +5,9 @@
 #include <ostream>
 #include <iostream>
 #include <stddef.h>
+#include <memory>
+#include <set>
+
 
 using namespace std;
 
@@ -24,11 +27,12 @@ public:
     virtual ~Quoto() = default;
     string isbn() const {return bookNo;}
     virtual double net_price(size_t n) const {return n * price;}
+    virtual Quoto* clone() const & {return new Quoto(*this);}
+    virtual Quoto* clone() && {return new Quoto(std::move(*this));}
     virtual void debug()
     {
         cout << "bookNo = " << bookNo << " price = " << price << endl;
     }
-    virtual ~Quoto() = default;
 };
 // 获取总价
 double print_total(ostream& os, const Quoto& item, size_t n)
@@ -74,8 +78,11 @@ class Bulk_quote : public Disc_quoto
 {
 public:
     Bulk_quote() = default;
+    using Disc_quoto::Disc_quoto;
     Bulk_quote(const string& book, double price, size_t quan, double disc) : Disc_quoto(book, price, quan, disc) {}
     Bulk_quote(const Bulk_quote& bq) : Disc_quoto(bq) {}
+    Bulk_quote* clone() const & {return new Bulk_quote(*this);}
+    Bulk_quote* clone() && {return new Bulk_quote(std::move(*this));}
     double net_price(size_t) const override;
 };
 
@@ -114,6 +121,29 @@ double Limit_quote::net_price(size_t n) const
         return max_qty * (1 - disc) * price;
 }
 
+// 购物篮
+class Basket
+{
+public:
+    void add_item(const shared_ptr<Quoto>& sale) {items.insert(sale);}
+    void add_item(const Quoto& sale) {items.insert(shared_ptr<Quoto>(sale.clone()));}
+    void add_item(Quoto&& sale) {items.insert(shared_ptr<Quoto>(std::move(sale).clone()));}
+    double total_receipt(ostream& os) const;
+private:
+    static bool compare(const shared_ptr<Quoto>& lhs, const shared_ptr<Quoto>& rhs) {return lhs->isbn() < rhs->isbn();}
+    multiset<shared_ptr<Quoto>, decltype(compare)*> items{compare};
+};
+
+double Basket::total_receipt(ostream& os) const
+{
+    double sum = 0.0;
+    for (auto iter = items.cbegin(); iter != items.cend(); iter = items.upper_bound(*iter))
+    {
+        sum += print_total(os, **iter, items.count(*iter));
+    }
+    os << "Total sale: " << sum << endl;
+    return sum;
+}
 
 
 #endif
