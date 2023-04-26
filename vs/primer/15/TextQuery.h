@@ -17,12 +17,12 @@ class TextQuery
 {
 public:
     using line_no = vector<string>::size_type;
-    TextQuery(ifstream &);  //¹¹Ôìº¯Êý½ÓÊÜÒ»¸öÎÄ¼þ
+    TextQuery(ifstream &);  //ï¿½ï¿½ï¿½ìº¯ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ä¼ï¿½
 
     QueryResult query(const string &) const;
 private:
-    shared_ptr<vector<string>> file; // vector ´æ·ÅÃ¿Ò»ÐÐµÄÊý¾Ý
-    map<string, shared_ptr<set<line_no>>> wm; // map ½«Ã¿¸ö´Ê Óë set¹ØÁª  ÆäÖÐ set´æ·Å¸Ãµ¥´Ê³öÏÖµÄÐÐºÅ
+    shared_ptr<vector<string>> file; // vector ï¿½ï¿½ï¿½Ã¿Ò»ï¿½Ðµï¿½ï¿½ï¿½ï¿½ï¿½
+    map<string, shared_ptr<set<line_no>>> wm; // map ï¿½ï¿½Ã¿ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ setï¿½ï¿½ï¿½ï¿½  ï¿½ï¿½ï¿½ï¿½ setï¿½ï¿½Å¸Ãµï¿½ï¿½Ê³ï¿½ï¿½Öµï¿½ï¿½Ðºï¿½
 };
 
 TextQuery::TextQuery(ifstream &is) : file(new vector<string>)
@@ -31,14 +31,14 @@ TextQuery::TextQuery(ifstream &is) : file(new vector<string>)
 
     while (getline(is, text))
     {   
-        // ´æÈëÒ»ÐÐ
+        // ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½
         file->push_back(text);
         int n = file->size() - 1;
-        // »ñÈ¡Ò»ÐÐÖÐµÄÃ¿¸ö´Ê
+        // ï¿½ï¿½È¡Ò»ï¿½ï¿½ï¿½Ðµï¿½Ã¿ï¿½ï¿½ï¿½ï¿½
         istringstream line(text);
         string word;
-        // ¸Ã´ÊÊÇ·ñ³öÏÖ¹ý  Èç¹ûÃ»ÓÐÐÂ½¨¸öset ½«ÐÐºÅ´æÈë
-        // Èç¹û³öÏÖ¹ý Ö±½Ó´æÈë
+        // ï¿½Ã´ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Ö¹ï¿½  ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Â½ï¿½ï¿½ï¿½set ï¿½ï¿½ï¿½ÐºÅ´ï¿½ï¿½ï¿½
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¹ï¿½ Ö±ï¿½Ó´ï¿½ï¿½ï¿½
         while (line >> word)
         {
             auto &lines = wm[word];  
@@ -51,9 +51,9 @@ TextQuery::TextQuery(ifstream &is) : file(new vector<string>)
 
 QueryResult TextQuery::query(const string &sought) const
 {
-    // Èç¹ûÕÒ²»µ½ ·µ»ØÕâ¸ö¿ÕµÄ
+    // ï¿½ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õµï¿½
     static shared_ptr<set<line_no>> nodata(new set<line_no>);
-    //½øÐÐ²éÕÒ  ²¢·µ»Ø
+    //ï¿½ï¿½ï¿½Ð²ï¿½ï¿½ï¿½  ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     auto loc = wm.find(sought);
     if (loc == wm.end())
         return QueryResult(sought, nodata, file);
