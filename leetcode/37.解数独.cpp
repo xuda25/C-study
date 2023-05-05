@@ -7,7 +7,11 @@
  *
  * algorithms
  * Hard (67.56%)
+<<<<<<< HEAD
  * Likes:    1616
+=======
+ * Likes:    1615
+>>>>>>> master
  * Dislikes: 0
  * Total Accepted:    202.1K
  * Total Submissions: 299.2K

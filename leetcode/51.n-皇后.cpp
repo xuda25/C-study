@@ -6,7 +6,11 @@
  * https://leetcode.cn/problems/n-queens/description/
  *
  * algorithms
+<<<<<<< HEAD
  * Hard (74.15%)
+=======
+ * Hard (74.19%)
+>>>>>>> master
  * Likes:    1748
  * Dislikes: 0
  * Total Accepted:    301.7K
