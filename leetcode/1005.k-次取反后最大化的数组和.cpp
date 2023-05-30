@@ -40,9 +40,7 @@ public:
         return abs(a) > abs(b);
     }
 
-    // 按绝对值大小排序， 将绝对值最大的负 变为正可以保证最大
-    // 1. k用完， 保证最大
-    // 2. k没用完， 剩下的全是正的
+    // 按绝对值大小排序， 将绝对值最大的
     int largestSumAfterKNegations(vector<int>& nums, int k) {
         sort(nums.begin(), nums.end(), cmp);
 
@@ -55,8 +53,7 @@ public:
             }
         }
 
-        // k没用完， 将最小的正数拿去求k次反，  k剩偶数不变  奇数取负
-        if (k % 2 == 1) nums[nums.size() - 1] *= -1;  //
+        if (k % 2 == 1) nums[nums.size() - 1] *= -1;  // 
 
         int ans = 0;
         for (int a : nums)
