@@ -33,8 +33,38 @@ public:
     {
         return head;
     }
-
-
+    // 尾插法创建链表
+    void CreateListTail()
+    {
+        Node *nw, *tail;
+        tail = head;  // tail总是指向最后一个节点
+        int i;
+        cout << "输入想要插入的元素" << endl;
+        while (cin >> i && i != 9999)
+        {
+            nw = new Node(i);
+            tail->next = nw;
+            tail = nw;
+            ++length;
+        }
+        return;
+    }
+    // 头插法建立链表
+    void CreateListHead()
+    {
+        Node *hd, *nw;
+        int i;
+        hd = head;
+        cout << "输入想要插入的元素" << endl;
+        while (cin >> i && i != 9999)
+        {
+            nw = new Node(i);
+            nw->next = hd->next;
+            hd->next = nw;
+            ++length;
+        }
+        return;
+    }
     // 按位序插入（带头节点）
     bool ListInsert(int i, int e) //在位序i处插入e
     {
@@ -159,27 +189,6 @@ private:
 int main()
 {
     LinkList a;
-    Node* head = a.getHead();
-    a.ListInsert(1,1);
-    a.ListInsert(2,2);
-    a.ListInsert(3,3);
-    Node* one = head->next;
-    //a.test();
-    a.InsertNextNode(one, 20);
+    a.CreateListHead();
     a.test();
-    cout << endl;
-    a.InsertPriorNode(one, 111);
-    a.test();
-    cout << endl;
-    int b;
-    a.ListDelete(5, b);
-    a.test();
-    cout << endl;
-    a.DeleteNode(one);
-    a.test();
-    cout << endl;
-    Node*c = a.GetElem(1);
-    cout << c->data << endl;
-    Node*d = a.LocateElem(111);
-    cout << d->data << endl;
 }
