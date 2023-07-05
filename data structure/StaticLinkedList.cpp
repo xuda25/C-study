@@ -108,6 +108,70 @@ public:
         Free_Sl(h);
         return;
     }
+
+    // 显示列表
+    void show_list()
+    {
+        int i = space[1].cur;
+        for (; i != 0; i = space[i].cur)
+            cout << space[i].data << " ";
+        cout << endl;
+        return;
+    }
+
+    // 从小到大的顺序前提下 插入x
+    void insert_val(const ElemType x)
+    {
+        /*
+        ** 1. 找到最后一个小于目标节点的节点
+        ** 2. 插入目标节点
+        */
+        
+        int i = 1;
+        while (space[i].cur != 0 && space[space[i].cur].data < x)
+            i = space[i].cur;
+
+        if (space[i].cur == 0)  // k指向最后一个元素
+            push_back(x);
+        else if (i == 1) // k = 1 说明x最小
+            push_front(x);
+        else  // 插入中间
+        {
+            int a = Malloc_Sl();
+            assert(a);
+            space[a].data = x;
+            space[a].cur = space[i].cur;
+            space[i].cur = a;
+        }
+        return;
+    }
+
+    // 返回x的上一个节点的下标
+    int find(const ElemType& x)
+    {
+        int i = 1;
+        while (space[i].cur != 0 && space[space[i].cur].data != x)
+            i = space[i].cur;
+        
+        if (space[i].cur == 0)
+        {
+            cout << "Can not find!" << endl;
+            return -1;
+        }
+        return i;
+    }
+
+    // 删除给定值所在的节点， 不存在则返回
+    void delete_val(const ElemType& x)
+    {
+        int i = find(x);
+        if (x == -1)
+            return;
+        int d = space[i].cur;
+        space[i].cur = space[d].cur;
+        Free_Sl(d);
+        return;
+    }
 protected:
     // 申请一个空位置， 返回位置的下标
     int Malloc_Sl()
