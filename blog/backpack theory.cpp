@@ -38,8 +38,9 @@ void test_1_wei_bag_problem()
     cout << dp[bagsize];
 }
 
+
 int main()
 {
-    test_1_wei_bag_problem();
+    test_2_wei_bag_problem1();
     return 0;
 }
