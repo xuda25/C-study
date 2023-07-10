@@ -8,6 +8,18 @@
         "initializer_list": "cpp",
         "utility": "cpp",
         "limits": "cpp",
-        "random": "cpp"
+        "random": "cpp",
+        "*.tcc": "cpp",
+        "atomic": "cpp",
+        "deque": "cpp",
+        "string": "cpp",
+        "algorithm": "cpp",
+        "memory_resource": "cpp",
+        "memory": "cpp",
+        "fstream": "cpp",
+        "sstream": "cpp",
+        "stdexcept": "cpp",
+        "tuple": "cpp",
+        "type_traits": "cpp"
     }
 }
