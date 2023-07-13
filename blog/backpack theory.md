@@ -86,3 +86,48 @@ void test_1_wei_bag_problem()
 ```
 
 
+## 完全背包理论
+
+有N件物品和一个最多能背重量为W的背包。第i件物品的重量是weight[i]，得到的价值是value[i] 。每件物品都有无限个（也就是可以放入背包多次），求解将哪些物品装入背包里物品价值总和最大。
+
+完全背包和01背包问题唯一不同的地方就是，每种物品有无限件。
+
+同样leetcode上没有纯完全背包问题，都是需要完全背包的各种应用，需要转化成完全背包问题，所以我这里还是以纯完全背包问题进行讲解理论和原理。
+
+在下面的讲解中，我依然举这个例子：
+
+背包最大重量为4。
+![Alt text](image-10.png)
+
+```C++
+void test_CompletePack()
+{
+    vector<int> weight{1, 3, 4};
+    vector<int> value{15, 20, 30};
+    int bagsize = 4;
+
+    vector<int> dp(bagsize+1, 0);
+
+    for (int i = 0; i < weight.size(); ++i)
+        for (int j = weight[i]; j <= bagsize; ++j)
+            dp[j] = max(dp[j], dp[j - weight[i]] + value[i]);
+    
+    cout << dp[bagsize];
+}
+
+void test_CompletePack2()
+{
+    vector<int> weight{1, 3, 4};
+    vector<int> value{15, 20, 30};
+    int bagsize = 4;
+
+    vector<int> dp(bagsize+1, 0);
+
+    for (int j = 0; j <= bagsize; ++j)
+        for (int i = 0; i < weight.size(); ++i)
+            if (j - weight[i] >= 0)
+                dp[j] = max(dp[j], dp[j - weight[i]] + value[i]);
+    
+    cout << dp[bagsize];
+}
+```
