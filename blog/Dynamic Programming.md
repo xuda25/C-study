@@ -203,3 +203,49 @@ int minCostClimbingStairDp2(vector<int>& cost)
 }
 
 ```
+
+
+## 多重背包
+对于多重背包，我在力扣上还没发现对应的题目，所以这里就做一下简单介绍，大家大概了解一下。
+
+有N种物品和一个容量为V 的背包。第i种物品最多有Mi件可用，每件耗费的空间是Ci ，价值是Wi 。求解将哪些物品装入背包可使这些物品的耗费的空间 总和不超过背包容量，且价值总和最大。
+
+多重背包和01背包是非常像的， 为什么和01背包像呢？
+
+每件物品最多有Mi件可用，把Mi件摊开，其实就是一个01背包问题了。
+
+例如：
+
+背包最大重量为10。
+![Alt text](image-11.png)
+拆
+![Alt text](image-12.png)
+
+
+```C++
+void test_multi_pack()
+{
+    vector<int> weight{1, 3, 4};
+    vector<int> value{15, 20, 30};
+    vector<int> nums{2, 3, 2};
+    int bagsize = 10;
+
+    for (int i = 0; i < weight.size(); ++i)
+        while (nums[i] != 1)
+        {
+            weight.push_back(weight[i]);
+            value.push_back(value[i]);
+            --nums[i];
+        }
+
+    vector<int> dp(bagsize+1, 0);
+
+    for (int i = 0; i < weight.size(); ++i)
+        for (int j = bagsize; j >= weight[i]; --j)
+            dp[j] = max(dp[j], dp[j - weight[i]] + value[i]);
+
+    cout << dp[bagsize] << endl;
+}
+
+```
+
