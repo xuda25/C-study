@@ -86,7 +86,7 @@ int main()
     transform(Ivec.begin(), Ivec.end(), Ivec.begin(),bind2nd(multiplies<int>(), 2));
 
 
-    auto mod = [] (int i, int j) {return i % j};
+    auto mod = [] (int i, int j) {return i % j;};
 
     map<string, function<int(int, int)>> binops = {
         {"+", add},

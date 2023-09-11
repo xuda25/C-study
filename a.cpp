@@ -69,8 +69,25 @@ void test_CompletePack2()
     cout << dp[bagsize];
 }
 
-int main()
+
+#define CALL_WITH_MAX(a, b) f((a) > (b) ? (a) : (b))
+// 虽然看得懂  但是每个参数要括号
+// 容易出错
+int a = 5, b = 0;
+int f(int a)
 {
-    test_CompletePack2();
     return 0;
 }
+
+int main()
+{
+CALL_WITH_MAX(++a, b);  //++a两次
+CALL_WITH_MAX(++a, b + 10); //++a一次
+}
+
+// int main()
+// {   
+//     std::tr1::
+//     test_CompletePack2();
+//     return 0;
+// }
