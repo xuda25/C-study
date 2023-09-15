@@ -19,6 +19,7 @@ const char* const p4 = greeting; // both const
 #include <vector>
 #include <string>
 #include <iostream>
+#include <cstring>
 using namespace std;
 
 vector<int> vec;
@@ -62,6 +63,27 @@ int main()
 }
 
 
+//C++ 有一个 跟const 相关的摆动场  mutable  可以在 const函数中改变成员的值
 
+class CTextBlock
+{
+public:
+    size_t length() const;
 
+private:
+    char* pText;
+    mutable size_t textLen;
+    mutable bool lengthIsValid;
+};
+
+size_t CTextBlock::length() const
+{
+    if (!lengthIsValid)
+    {
+        textLen = strlen(pText);
+        lengthIsValid = true;
+    }
+
+    return textLen;
+}
 
