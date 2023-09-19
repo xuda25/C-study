@@ -18,37 +18,65 @@
 // 初始化顺序   下到上 左到右
 
 // @lc code=start
+// class Solution {
+// public:
+//     int countSubstrings(string s) {
+//         vector<vector<bool>> dp(s.size(), vector<bool>(s.size(), false));
+//         int result = 0;
+
+//         for (int i = s.size()-1; i >= 0; --i)
+//         {
+//             for (int j = 0; j < s.size(); ++j)
+//             {
+//                 if (s[i] != s[j])
+//                     dp[i][j] = false;
+//                 else
+//                 {
+//                     if (i - j <= 0)
+//                     {
+//                         dp[i][j] = true;
+//                         ++result;
+//                     }
+//                     else
+//                     {
+//                         if (dp[i+1][j-1] == true)
+//                         {
+//                             dp[i][j] = true;
+//                             ++result;
+//                         }
+//                     }
+//                 }
+//             }
+//         }
+//         return result;
+//     }
+// };
+
 class Solution {
 public:
     int countSubstrings(string s) {
-        vector<vector<bool>> dp(s.size(), vector<bool>(s.size(), false));
         int result = 0;
-
-        for (int i = s.size()-1; i >= 0; --i)
+        
+        for (int i = 0; i < s.size(); ++i)
         {
-            for (int j = 0; j < s.size(); ++j)
-            {
-                if (s[i] != s[j])
-                    dp[i][j] = false;
-                else
-                {
-                    if (i - j <= 0)
-                    {
-                        dp[i][j] = true;
-                        ++result;
-                    }
-                    else
-                    {
-                        if (dp[i+1][j-1] == true)
-                        {
-                            dp[i][j] = true;
-                            ++result;
-                        }
-                    }
-                }
-            }
+            result += extend(s, i, i, s.size());
+            result += extend(s, i, i+1, s.size());
         }
+
         return result;
+    }
+
+
+    int extend(const string& s, int i, int j, int n)
+    {
+        int res = 0;
+        while (i >= 0 && j < n && s[i] == s[j])
+        {
+            i--;
+            j++;
+            res++;
+        }
+        return res;
     }
 };
 // @lc code=end
