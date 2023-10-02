@@ -1,0 +1,14 @@
+#ifndef __SGI_STL_ITERATOR
+#define __SGI_STL_ITERATOR
+
+#include <stl_config.h>
+#include <stl_relops.h>
+#include <stddef.h>
+#include <iostream.h>
+#include <stl_iterator.h>
+
+#endif /* __SGI_STL_ITERATOR */
+
+// Local Variables:
+// mode:C++
+// End:

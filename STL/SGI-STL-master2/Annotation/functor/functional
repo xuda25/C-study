@@ -1,0 +1,12 @@
+#ifndef __SGI_STL_FUNCTIONAL
+#define __SGI_STL_FUNCTIONAL
+
+#include <stl_config.h>
+#include <stddef.h>
+#include <stl_function.h>
+
+#endif /* __SGI_STL_FUNCTIONAL */
+
+// Local Variables:
+// mode:C++
+// End:
