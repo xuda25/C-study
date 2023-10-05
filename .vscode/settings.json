@@ -45,6 +45,8 @@
         "istream": "cpp",
         "new": "cpp",
         "streambuf": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "hash_map": "cpp",
+        "hash_set": "cpp"
     }
 }
