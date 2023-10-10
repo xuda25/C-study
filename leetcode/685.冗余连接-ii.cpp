@@ -7,7 +7,7 @@
 // @lc code=start
 class Solution {
 public:
-    int n = 1001;
+    int n = 1005;
     vector<int> father = vector<int>(n, 0);
 
     void init()
@@ -38,7 +38,8 @@ public:
     }
 
     bool isTreeAfterRemoveEdge(vector<vector<int>>& edges, int deleteEdge)
-    {
+    {   
+        init(); 
         for (int i = 0; i < edges.size(); ++i)
         {
             if (i == deleteEdge)
@@ -50,28 +51,48 @@ public:
         return true;
     }
 
+    vector<int> findRing(vector<vector<int>> edges)
+    {   
+        init();
+        for (int i = 0; i < edges.size(); ++i)
+        {
+            if (same(edges[i][0], edges[i][1]))
+                return edges[i];
+            else
+                join(edges[i][0], edges[i][1]);
+        }
+
+        return {};
+    }
+
     vector<int> findRedundantDirectedConnection(vector<vector<int>>& edges) {
         // 寻找入度为2的节点的边
         int n = edges.size();
-        int inDegree[n] = {0};
+        int inDegree[1005] = {0};
 
         for (int i = 0; i < n; ++i)
             inDegree[edges[i][1]]++;
 
         vector<int> vec;
         for (int i = n-1; i >= 0; i--)
-            if (inDegree[i] == 2)
+            if (inDegree[edges[i][1]] == 2)
                 vec.push_back(i);
 
         // 此时只有两种可能
         // 1. 有入度为2的  删掉一条
         // 2. 没有入度为2  必有有向环
-
+        
+        // 1.
         if (vec.size() > 0)
         {
-
+            if (isTreeAfterRemoveEdge(edges, vec[0]))
+                return edges[vec[0]];
+            else
+                return edges[vec[1]];
         }
 
+        // 2.
+        return findRing(edges);
     }
 };
 // @lc code=end
