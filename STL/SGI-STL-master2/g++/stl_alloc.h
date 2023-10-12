@@ -184,13 +184,15 @@ void (* __malloc_alloc_template<inst>::__malloc_alloc_oom_handler)() = 0;
 template <int inst>
 void * __malloc_alloc_template<inst>::oom_malloc(size_t n)
 {
-    void (* my_malloc_handler)();
-    void *result;
-
+    void (* my_malloc_handler)();  // 函数指针
+    void *result;  
+    // 死循环
     for (;;) {
-        my_malloc_handler = __malloc_alloc_oom_handler;
-        if (0 == my_malloc_handler) { __THROW_BAD_ALLOC; }
-        (*my_malloc_handler)();
+        // 检查用户是否自定操作
+        my_malloc_handler = __malloc_alloc_oom_handler;   
+        if (0 == my_malloc_handler) { __THROW_BAD_ALLOC; } // 没有自定 就抛出
+        (*my_malloc_handler)();  // 有就 运行
+        // 运行完 可能就可以分配了  继续分配
         result = malloc(n);
         if (result) return(result);
     }
@@ -321,6 +323,7 @@ private:
     enum {__MAX_BYTES = 128};
     enum {__NFREELISTS = __MAX_BYTES/__ALIGN};
 # endif
+    // 将bytes上调至8的倍数
   static size_t ROUND_UP(size_t bytes) {
         return (((bytes) + __ALIGN-1) & ~(__ALIGN - 1));
   }
@@ -336,6 +339,7 @@ private:
 # else
     static obj * __VOLATILE free_list[__NFREELISTS]; 
 # endif
+    // 根据区块大小 选择所用的free_list  从0开始
   static  size_t FREELIST_INDEX(size_t bytes) {
         return (((bytes) + __ALIGN-1)/__ALIGN - 1);
   }
