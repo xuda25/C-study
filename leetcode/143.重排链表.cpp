@@ -15,7 +15,42 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
+// 方法1： 把节点放入数组
 
+// class Solution {
+// public:
+//     void reorderList(ListNode* head) {
+//         vector<ListNode*> vec;
+//         ListNode* cur = head;
+
+//         while (cur)
+//         {
+//             vec.push_back(cur);
+//             cur = cur->next;
+//         }
+        
+//         cur = head;
+//         int i = 1, j = vec.size()-1;
+//         int count = 0;
+//         while (i <= j)
+//         {
+//             if (count % 2 == 0)
+//             {
+//                 cur->next = vec[j];
+//                 --j;
+//             }
+//             else
+//             {
+//                 cur->next = vec[i];
+//                 ++i;
+//             }
+//             cur = cur->next;
+//             ++count;
+//         }
+//         cur->next = nullptr;
+
+//     }
+// };
 
 // 方法2
 class Solution {
