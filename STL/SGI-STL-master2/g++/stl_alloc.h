@@ -517,12 +517,13 @@ template <bool threads, int inst>
 void* __default_alloc_template<threads, inst>::refill(size_t n)
 {
     int nobjs = 20;
+    // 通过chunk_alloc 尝试将nobjs个区块作为free list的新节点
     char * chunk = chunk_alloc(n, nobjs);
     obj * __VOLATILE * my_free_list;
     obj * result;
     obj * current_obj, * next_obj;
     int i;
-
+    // 如果 只分配了一个空间 直接拿去用  free list还是空的
     if (1 == nobjs) return(chunk);
     my_free_list = free_list + FREELIST_INDEX(n);
 
