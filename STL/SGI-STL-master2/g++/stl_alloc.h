@@ -215,7 +215,7 @@ void * __malloc_alloc_template<inst>::oom_realloc(void *p, size_t n)
 
 typedef __malloc_alloc_template<0> malloc_alloc;
 
-template<class T, class Alloc>
+ template<class T, class Alloc>
 class simple_alloc {
 
 public:
