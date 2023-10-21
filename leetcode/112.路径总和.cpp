@@ -16,98 +16,46 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-// ×Ô¼ºµÄµÝ¹é  ÓÐµãÂé·³ÁË
-// class Solution {
-// public:
-//     int res = 0;
-
-//     bool hasPathSum(TreeNode* root, int targetSum) {
-//         if (!root)
-//             return false;
-
-//         res += root->val;
-
-//         if (!root->left && !root->right && res != targetSum)
-//         {
-//             return false;
-//         }
-
-//         if (!root->left && !root->right && res == targetSum)
-//             return true;
-
-//         if (root->left)
-//         {
-//             bool l = hasPathSum(root->left, targetSum);
-//             if (l)
-//                 return true;
-//             else
-//                 res -= root->left->val;
-//         }
-            
-//         if (root->right)
-//         {
-//             bool r = hasPathSum(root->right, targetSum);
-//             if (r)
-//                 return true;
-//             else
-//                 res -= root->right->val;
-//         }
-        
-//         return false;
-//     }
-// };
-
-// carlµÄµÝ¹é
-// class Solution {
-// public:
-//     bool travel(TreeNode* root, int count)
-//     {
-//         if (!root->left && !root->right && count == 0) return true;
-//         if (!root->left && !root->right) return false;
-
-//         if (root->left)
-//             if (travel(root->left, count - root->left->val)) return true;
-
-//         if (root->right)
-//             if (travel(root->right, count - root->right->val)) return true;
-
-//         return false;
-//     }
-
-//     bool hasPathSum(TreeNode* root, int targetSum) {
-//         if (!root) return false;
-
-//         return travel(root, targetSum - root->val);
-//     }
-// };
-
-//µü´ú
-
 class Solution {
 public:
+    bool res = false;
+
+    void travel(TreeNode* root, int& targetSum)
+    {
+        if (!root->left && !root->right)
+        {
+            if (targetSum == 0)
+                res = true;
+            return;
+        }
+
+        // å·¦å³
+        if (root->left)
+        {
+            targetSum -= root->left->val;
+            travel(root->left, targetSum);
+            targetSum += root->left->val;
+        }
+
+        //å³
+        if (root->right)
+        {
+            targetSum -= root->right->val;
+            travel(root->right, targetSum);
+            targetSum += root->right->val;
+        }
+        
+        return;
+    }
 
     bool hasPathSum(TreeNode* root, int targetSum) {
         if (!root)
             return false;
-
-        stack<pair<TreeNode*, int>> st;
-        st.push(pair<TreeNode*, int>(root, root->val));
-
-        while (!st.empty())
-        {
-            auto cur = st.top();
-            st.pop();
-
-            if (!cur.first->left && !cur.first->right && cur.second == targetSum)   return true;
-
-            if (cur.first->right)
-                st.push(pair<TreeNode*, int>(cur.first->right, cur.second + cur.first->right->val));
-
-            if (cur.first->left)
-                st.push(pair<TreeNode*, int>(cur.first->left, cur.second + cur.first->left->val));
-        }
-
-        return false;
+        if (!root->left && !root->right)
+            return root->val == targetSum;
+        int target = targetSum - root->val;
+        travel(root, target);
+        return res;
     }
 };
 // @lc code=end
