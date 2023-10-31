@@ -94,6 +94,7 @@ struct iterator {
 
 #ifdef __STL_CLASS_PARTIAL_SPECIALIZATION
 
+// "榨汁机"traits
 template <class Iterator>
 struct iterator_traits {
   typedef typename Iterator::iterator_category iterator_category;
@@ -103,6 +104,7 @@ struct iterator_traits {
   typedef typename Iterator::reference         reference;
 };
 
+// 原生指针的traits偏特化版
 template <class T>
 struct iterator_traits<T*> {
   typedef random_access_iterator_tag iterator_category;
@@ -112,6 +114,7 @@ struct iterator_traits<T*> {
   typedef T&                         reference;
 };
 
+// 针对pointer to const而设计的triats偏特化
 template <class T>
 struct iterator_traits<const T*> {
   typedef random_access_iterator_tag iterator_category;
@@ -121,6 +124,7 @@ struct iterator_traits<const T*> {
   typedef const T&                   reference;
 };
 
+// 为了获取迭代器类型
 template <class Iterator>
 inline typename iterator_traits<Iterator>::iterator_category
 iterator_category(const Iterator&) {

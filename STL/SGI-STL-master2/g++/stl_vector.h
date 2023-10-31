@@ -61,9 +61,10 @@ public:
 #endif /* __STL_CLASS_PARTIAL_SPECIALIZATION */
 protected:
   typedef simple_alloc<value_type, Alloc> data_allocator;
-  iterator start;
-  iterator finish;
-  iterator end_of_storage;
+  iterator start; // 目前使用空间的头
+  iterator finish; // 目前使用空间的尾
+  iterator end_of_storage; // 目前可用空间的尾巴
+  
   void insert_aux(iterator position, const T& x);
   void deallocate() {
     if (start) data_allocator::deallocate(start, end_of_storage - start);
