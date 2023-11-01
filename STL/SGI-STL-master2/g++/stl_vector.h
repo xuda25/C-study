@@ -64,10 +64,9 @@ protected:
   iterator start; // 目前使用空间的头
   iterator finish; // 目前使用空间的尾
   iterator end_of_storage; // 目前可用空间的尾巴
-  
   void insert_aux(iterator position, const T& x);
   void deallocate() {
-    if (start) data_allocator::deallocate(start, end_of_storage - start);
+    if (start) data_allocator::deallocate(start, end_of_storage - start); // (*p, size_t)
   }
 
   void fill_initialize(size_type n, const T& value) {
@@ -126,7 +125,7 @@ public:
     destroy(start, finish);
     deallocate();
   }
-  vector<T, Alloc>& operator=(const vector<T, Alloc>& x);
+  vector<T, Alloc>& operator=(const vector<T, Alloc>& x);   // vector<T, Alloc>
   void reserve(size_type n) {
     if (capacity() < n) {
       const size_type old_size = size();
