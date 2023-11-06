@@ -358,17 +358,17 @@ void vector<T, Alloc>::insert_aux(iterator position, const T& x) {
 template <class T, class Alloc>
 void vector<T, Alloc>::insert(iterator position, size_type n, const T& x) {
   if (n != 0) {
-    if (size_type(end_of_storage - finish) >= n) {
+    if (size_type(end_of_storage - finish) >= n) {   // 备用空间大于剩余空间
       T x_copy = x;
-      const size_type elems_after = finish - position;
+      const size_type elems_after = finish - position;   // 插入点后现有元素个数
       iterator old_finish = finish;
-      if (elems_after > n) {
+      if (elems_after > n) {  // 插入点后元素个数大于n
         uninitialized_copy(finish - n, finish, finish);
         finish += n;
         copy_backward(position, old_finish - n, old_finish);
         fill(position, position + n, x_copy);
       }
-      else {
+      else {   // 插入点后元素个数小于等于n
         uninitialized_fill_n(finish, n - elems_after, x_copy);
         finish += n - elems_after;
         uninitialized_copy(position, old_finish, finish);
@@ -376,9 +376,9 @@ void vector<T, Alloc>::insert(iterator position, size_type n, const T& x) {
         fill(position, old_finish, x_copy);
       }
     }
-    else {
+    else {   // 备用空间数量小于新增元素个数
       const size_type old_size = size();        
-      const size_type len = old_size + max(old_size, n);
+      const size_type len = old_size + max(old_size, n);  // 新长度是原空间两倍  或  原空间+n
       iterator new_start = data_allocator::allocate(len);
       iterator new_finish = new_start;
       __STL_TRY {

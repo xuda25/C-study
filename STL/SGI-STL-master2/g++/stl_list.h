@@ -148,10 +148,10 @@ public:
 #endif /* __STL_CLASS_PARTIAL_SPECIALIZATION */
 
 protected:
-  link_type get_node() { return list_node_allocator::allocate(); }
-  void put_node(link_type p) { list_node_allocator::deallocate(p); }
+  link_type get_node() { return list_node_allocator::allocate(); } // 配置一个节点并传回
+  void put_node(link_type p) { list_node_allocator::deallocate(p); } //释放一个节点
 
-  link_type create_node(const T& x) {
+  link_type create_node(const T& x) {  //配置一个节点并构造
     link_type p = get_node();
     __STL_TRY {
       construct(&p->data, x);
@@ -165,7 +165,7 @@ protected:
   }
 
 protected:
-  void empty_initialize() { 
+  void empty_initialize() {   // 构造一个空链表
     node = get_node();
     node->next = node;
     node->prev = node;
@@ -235,8 +235,9 @@ public:
   reference back() { return *(--end()); }
   const_reference back() const { return *(--end()); }
   void swap(list<T, Alloc>& x) { __STD::swap(node, x.node); }
-  iterator insert(iterator position, const T& x) {
-    link_type tmp = create_node(x);
+  iterator insert(iterator position, const T& x) {  
+    link_type tmp = create_node(x);   // 配置并构造
+    // 插入节点
     tmp->next = position.node;
     tmp->prev = position.node->prev;
     (link_type(position.node->prev))->next = tmp;
