@@ -129,7 +129,7 @@ struct __deque_iterator {
   pointer operator->() const { return &(operator*()); }
 #endif /* __SGI_STL_NO_ARROW_OPERATOR */
 
-  difference_type operator-(const self& x) const {
+  difference_type operator-(const self& x) const {  // 两个迭代器之间的距离
     //buffer数量 * buffer的大小 + 两端buffer中元素的个数 
     return difference_type(buffer_size()) * (node - x.node - 1) +
       (cur - first) + (x.last - x.cur);
@@ -165,7 +165,7 @@ struct __deque_iterator {
 	/*  实现随机存取，迭代器可以直接跳跃 n 个距离
 	* 为什么还调用 n 次 ++ ？ 
 	*/
-  self& operator+=(difference_type n) {
+  self& operator+=(difference_type n) {    // offset  node_offset  cur 的正负好
     difference_type offset = n + (cur - first);
 
     if (offset >= 0 && offset < difference_type(buffer_size()))
@@ -198,7 +198,7 @@ struct __deque_iterator {
   bool operator==(const self& x) const { return cur == x.cur; }
   bool operator!=(const self& x) const { return !(*this == x); }
   bool operator<(const self& x) const {
-    return (node == x.node) ? (cur < x.cur) : (node < x.node);
+    return (node == x.node) ? (cur < x.cur) : (node < x.node);   // 比较 地址前后
   }
   // 用来跳一个缓冲区
   void set_node(map_pointer new_node) {
@@ -260,7 +260,7 @@ inline ptrdiff_t* distance_type(const __deque_iterator<T, Ref, Ptr>&) {
 					3. 拥有两个空间配置器
  * @param {BufSize : 每一个buffer的大小}
  */
-template <class T, class Alloc = alloc, size_t BufSiz = 0> 
+template <class T, class Alloc = alloc, size_t BufSiz = 0>   // BufSiz = 0 默认缓冲区为512字节
 class deque {
 public:                         // Basic types
   typedef T value_type;
