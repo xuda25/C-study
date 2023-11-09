@@ -25,8 +25,27 @@ public:
         }
     }
 
-    string reverseWords(string s) {
+    void removeMidBlank(string& s)
+    {
         removeBlank(s);
+        int fast = 1;
+        int slow = 1;
+        for (; fast < s.size(); ++fast)
+        {
+            if (s[fast] == s[fast-1] && s[fast] == ' ')
+            {
+                continue;
+            }
+            else
+            {
+                s[slow++] = s[fast];
+            }
+        }
+        int remove = fast - slow;
+        s = s.substr(0, s.size()-remove);
+    }
+    string reverseWords(string s) {
+        removeMidBlank(s);
         string res;
         int first = s.size()-1;
         int last = s.size()-1;

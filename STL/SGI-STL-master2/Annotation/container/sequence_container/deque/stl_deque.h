@@ -551,11 +551,11 @@ public:                         // Erase
     iterator next = pos;
     ++next;
     difference_type index = pos - start;
-    if (index < (size() >> 1)) {
+    if (index < (size() >> 1)) {   // 删除点前面的元素较少
       copy_backward(start, pos, next);
       pop_front();
     }
-    else {
+    else {    // 删除点后面的元素较少
       copy(next, finish, pos);
       pop_back();
     }
@@ -652,12 +652,12 @@ protected:                      // Allocation of map and nodes
 
   void reserve_map_at_back (size_type nodes_to_add = 1) {
     // map 尾端的节点不够用
-    if (nodes_to_add + 1 > map_size - (finish.node - map))
+    if (nodes_to_add + 1 > map_size - (finish.node - map)) // 添加的比剩的多   或者   尾端节点不足
       reallocate_map(nodes_to_add, false);
   }
     //map 前段的节点不够用
   void reserve_map_at_front (size_type nodes_to_add = 1) {
-    if (nodes_to_add > start.node - map)
+    if (nodes_to_add > start.node - map)  // 添加的比剩的多   或者   头端节点不足
       reallocate_map(nodes_to_add, true);
   }
 
@@ -1296,11 +1296,11 @@ void deque<T, Alloc, BufSize>::destroy_nodes_at_back(iterator after_finish) {
 template <class T, class Alloc, size_t BufSize>
 void deque<T, Alloc, BufSize>::reallocate_map(size_type nodes_to_add,
                                               bool add_at_front) {
-  size_type old_num_nodes = finish.node - start.node + 1;
-  size_type new_num_nodes = old_num_nodes + nodes_to_add;
+  size_type old_num_nodes = finish.node - start.node + 1;  // 原map数
+  size_type new_num_nodes = old_num_nodes + nodes_to_add; // 新map数
 
   map_pointer new_nstart;
-  if (map_size > 2 * new_num_nodes) {
+  if (map_size > 2 * new_num_nodes) {    // 这种情泥主要出规在一直往首或尾单方向插入元素，导致首(尾)前面还有很多余留的空间，这种情况就这样调整
     new_nstart = map + (map_size - new_num_nodes) / 2 
                      + (add_at_front ? nodes_to_add : 0);
     if (new_nstart < start.node)
