@@ -36,6 +36,7 @@ inline __slist_node_base* __slist_make_link(__slist_node_base* prev_node,
   return new_node;
 }
 
+// 找某节点的前一个节点
 inline __slist_node_base* __slist_previous(__slist_node_base* head,
                                            const __slist_node_base* node)
 {
@@ -301,7 +302,7 @@ public:
   size_type max_size() const { return size_type(-1); }
 
   bool empty() const { return head.next == 0; }
-
+  // 两个slist互换
   void swap(slist& L)
   {
     list_node_base* tmp = head.next;

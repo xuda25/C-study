@@ -22,14 +22,14 @@ __STL_BEGIN_NAMESPACE
 template <class RandomAccessIterator, class Distance, class T>
 void __push_heap(RandomAccessIterator first, Distance holeIndex,
                  Distance topIndex, T value) {
-  Distance parent = (holeIndex - 1) / 2;
+  Distance parent = (holeIndex - 1) / 2;  // 找到父节点
   //默认是 max_heap
-  while (holeIndex > topIndex && *(first + parent) < value) {
+  while (holeIndex > topIndex && *(first + parent) < value) {   // 没到顶 且 max_heap
     *(first + holeIndex) = *(first + parent);
     holeIndex = parent;
     parent = (holeIndex - 1) / 2;
   }    
-  *(first + holeIndex) = value;
+  *(first + holeIndex) = value;  // 完成插入
 }
 
 template <class RandomAccessIterator, class Distance, class T>
