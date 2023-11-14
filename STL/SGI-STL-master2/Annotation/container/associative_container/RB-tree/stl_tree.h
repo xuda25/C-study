@@ -75,9 +75,9 @@ struct __rb_tree_base_iterator
   typedef ptrdiff_t difference_type;
   base_ptr node;
   //用来实现 operator ++
-  void increment()
+  void increment()   // 找下一个大的数
   {
-    if (node->right != 0) {
+    if (node->right != 0) {     // 存在右节点
       node = node->right;
       while (node->left != 0)
         node = node->left;
