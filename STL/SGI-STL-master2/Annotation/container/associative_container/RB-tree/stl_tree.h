@@ -180,34 +180,35 @@ inline Value* value_type(const __rb_tree_iterator<Value, Ref, Ptr>&) {
 #endif /* __STL_CLASS_PARTIAL_SPECIALIZATION */
 
 inline void 
-__rb_tree_rotate_left(__rb_tree_node_base* x, __rb_tree_node_base*& root)
+__rb_tree_rotate_left(__rb_tree_node_base* x, __rb_tree_node_base*& root)  // x为旋转点
 {
   __rb_tree_node_base* y = x->right;
   x->right = y->left;
   if (y->left !=0)
-    y->left->parent = x;
+    y->left->parent = x;  // y左节点接到x右节点
   y->parent = x->parent;
 
-  if (x == root)
+  if (x == root)  // x为根
     root = y;
-  else if (x == x->parent->left)
+  else if (x == x->parent->left)  // x为父节点的左节点
     x->parent->left = y;
-  else
+  else  // x为父节点的右节点
     x->parent->right = y;
   y->left = x;
   x->parent = y;
 }
 
 inline void 
-__rb_tree_rotate_right(__rb_tree_node_base* x, __rb_tree_node_base*& root)
+__rb_tree_rotate_right(__rb_tree_node_base* x, __rb_tree_node_base*& root)   // x为旋转点
 {
-  __rb_tree_node_base* y = x->left;
-  x->left = y->right;
+  __rb_tree_node_base* y = x->left;   //旋转点左节点
+  x->left = y->right;  // 
   if (y->right != 0)
     y->right->parent = x;
   y->parent = x->parent;
-
-  if (x == root)
+  
+  // 构建联系
+  if (x == root)  
     root = y;
   else if (x == x->parent->right)
     x->parent->right = y;
@@ -220,35 +221,35 @@ __rb_tree_rotate_right(__rb_tree_node_base* x, __rb_tree_node_base*& root)
 inline void 
 __rb_tree_rebalance(__rb_tree_node_base* x, __rb_tree_node_base*& root)
 {
-  x->color = __rb_tree_red;
-  while (x != root && x->parent->color == __rb_tree_red) {
-    if (x->parent == x->parent->parent->left) {
-      __rb_tree_node_base* y = x->parent->parent->right;
-      if (y && y->color == __rb_tree_red) {
-        x->parent->color = __rb_tree_black;
-        y->color = __rb_tree_black;
-        x->parent->parent->color = __rb_tree_red;
-        x = x->parent->parent;
+  x->color = __rb_tree_red;   //新节点必为红
+  while (x != root && x->parent->color == __rb_tree_red) {     // 新节点不是根节点  且父节点颜色为红  如果是黑就是合理的
+    if (x->parent == x->parent->parent->left) {      // 父节点是祖父节点的左节点
+      __rb_tree_node_base* y = x->parent->parent->right;   //y为伯父节点
+      if (y && y->color == __rb_tree_red) {   // 如果y存在 且 y为红节点
+        x->parent->color = __rb_tree_black;   // 父节点搞黑
+        y->color = __rb_tree_black;  // 伯父搞黑
+        x->parent->parent->color = __rb_tree_red;  // 祖父搞红
+        x = x->parent->parent;  // 向上遍历
       }
-      else {
-        if (x == x->parent->right) {
+      else {   // 没有伯父  或者 伯父为黑
+        if (x == x->parent->right) {     // x是父节点的右节点
           x = x->parent;
-          __rb_tree_rotate_left(x, root);
+          __rb_tree_rotate_left(x, root);   // 左旋转
         }
         x->parent->color = __rb_tree_black;
         x->parent->parent->color = __rb_tree_red;
         __rb_tree_rotate_right(x->parent->parent, root);
       }
     }
-    else {
-      __rb_tree_node_base* y = x->parent->parent->left;
-      if (y && y->color == __rb_tree_red) {
-        x->parent->color = __rb_tree_black;
-        y->color = __rb_tree_black;
-        x->parent->parent->color = __rb_tree_red;
+    else {    // 父节点为祖父节的右节点
+      __rb_tree_node_base* y = x->parent->parent->left;  // y为伯父节点
+      if (y && y->color == __rb_tree_red) {  // 伯父节点为红节点
+        x->parent->color = __rb_tree_black;  // 父节点变为黑
+        y->color = __rb_tree_black;  // 伯父变黑
+        x->parent->parent->color = __rb_tree_red; // 祖父变红
         x = x->parent->parent;
-      }
-      else {
+      } 
+      else {  // 无伯父 或者  伯父节点为黑节点
         if (x == x->parent->left) {
           x = x->parent;
           __rb_tree_rotate_right(x, root);
@@ -258,7 +259,7 @@ __rb_tree_rebalance(__rb_tree_node_base* x, __rb_tree_node_base*& root)
         __rb_tree_rotate_left(x->parent->parent, root);
       }
     }
-  }
+  }   // while 结束     如果新节点是根节点   直接变黑就好了
   root->color = __rb_tree_black;
 }
 
@@ -658,7 +659,7 @@ operator=(const rb_tree<Key, Value, KeyOfValue, Compare, Alloc>& x) {
 template <class Key, class Value, class KeyOfValue, class Compare, class Alloc>
 typename rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::iterator
 rb_tree<Key, Value, KeyOfValue, Compare, Alloc>::
-__insert(base_ptr x_, base_ptr y_, const Value& v) {
+__insert(base_ptr x_, base_ptr y_, const Value& v) {   // x为插入点  y为插入点的父节点  
   link_type x = (link_type) x_;
   link_type y = (link_type) y_;
   link_type z;
@@ -675,14 +676,14 @@ __insert(base_ptr x_, base_ptr y_, const Value& v) {
   }
   else {
     z = create_node(v);
-    right(y) = z;
-    if (y == rightmost())
+    right(y) = z;  // z插入到y的右节点
+    if (y == rightmost())   // 维护最右节点
       rightmost() = z;          // maintain rightmost() pointing to max node
   }
   parent(z) = y;
   left(z) = 0;
   right(z) = 0;
-  __rb_tree_rebalance(z, header->parent);
+  __rb_tree_rebalance(z, header->parent);  // 参数一： 新增节点   参数二： 根节点
   ++node_count;
   return iterator(z);
 }
