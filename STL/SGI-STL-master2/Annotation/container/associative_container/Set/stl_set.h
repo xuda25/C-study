@@ -57,7 +57,7 @@ public:
   // allocation/deallocation
 
   set() : t(Compare()) {}
-  //为什么是 eplict ?
+  //为什么是 eplict ?    //使用explicit关键字是为了防止将comp作为默认的比较函数
   explicit set(const Compare& comp) : t(comp) {}
 
 #ifdef __STL_MEMBER_TEMPLATES
