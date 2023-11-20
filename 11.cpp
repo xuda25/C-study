@@ -1,11 +1,12 @@
 #include <iostream>
 #include <string>
+
 using namespace std;
 
 int main()
 {
-    string a("-1/2");
+    string a("1");
 
-    cout << stoi(a) << endl;    
+    cout << to_string(a) << endl;    
 
 }
