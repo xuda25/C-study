@@ -54,5 +54,7 @@ public:
         return ans;
     }   
 };
+
+// O(n)  O(1)
 // @lc code=end
 

@@ -1,12 +1,13 @@
 #include <iostream>
 #include <string>
-
+#include <vector>
 using namespace std;
 
 int main()
 {
-    string a("1");
+    vector<int> a = {1, 2, 3 ,4 ,5};
+    vector<int>::iterator aa = a.begin();
+    cout << *++aa;
 
-    cout << to_string(a) << endl;    
 
 }
