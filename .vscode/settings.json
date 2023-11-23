@@ -55,5 +55,6 @@
         "bit": "cpp",
         "complex": "cpp",
         "numeric": "cpp"
-    }
+    },
+    "cmake.sourceDirectory": "F:/C++/untitled"
 }
