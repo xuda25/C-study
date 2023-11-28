@@ -5,9 +5,7 @@ using namespace std;
 
 int main()
 {
-    vector<int> a = {1, 2, 3 ,4 ,5};
-    vector<int>::iterator aa = a.begin();
-    cout << *++aa;
-
+    int ia[] = {1, 2, 3, 4, 5 ,6};
+    cout << sizeof(ia) / sizeof(int);
 
 }
