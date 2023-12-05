@@ -3,9 +3,20 @@
 #include <vector>
 using namespace std;
 
+int a()
+{
+    while (1)
+    {
+        while (1)
+        {
+            return 1;
+        }
+        
+    }
+    
+}
 int main()
 {
-    int ia[] = {1, 2, 3, 4, 5 ,6};
-    cout << sizeof(ia) / sizeof(int);
-
+    cout << a();
+    return 0;
 }
