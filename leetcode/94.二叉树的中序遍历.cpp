@@ -1,7 +1,7 @@
 /*
  * @lc app=leetcode.cn id=94 lang=cpp
  *
- * [94] 二叉树的中序遍历
+ * [94] 二叉树的�?序遍�?
  */
 
 // @lc code=start
@@ -83,5 +83,23 @@ public:
         return ans;
     }
 };
+
+// �ݹ�
+// class Solution {
+// public:
+//     vector<int> res;
+//     void dfs(TreeNode* root)
+//     {
+//         if (!root) return;
+//         dfs(root->left);
+//         res.push_back(root->val);
+//         dfs(root->right);
+//         return;
+//     }
+//     vector<int> inorderTraversal(TreeNode* root) {
+//         dfs(root);
+//         return res;
+//     }
+// };
 // @lc code=end
 
