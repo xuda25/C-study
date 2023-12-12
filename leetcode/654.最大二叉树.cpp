@@ -48,30 +48,60 @@
 //     }
 // };
 
+// class Solution {
+// public:
+//     TreeNode* travel(vector<int>& nums, int left, int right)
+//     {
+//         if (right - left <= 0) return nullptr;
+
+//         int index = left;
+//         for (int i = left; i < right; ++i)
+//             if (nums[i] > nums[index])
+//                 index = i;
+
+//         TreeNode* root = new TreeNode(nums[index]);
+
+//         root->left = travel(nums, left, index);
+//         root->right = travel(nums, index + 1, right);
+
+//         return root;
+//     }
+
+//     TreeNode* constructMaximumBinaryTree(vector<int>& nums) {
+//         return travel(nums, 0, nums.size());
+//     }
+// };
+
+
+
+// 单调栈
 class Solution {
 public:
-    TreeNode* travel(vector<int>& nums, int left, int right)
-    {
-        if (right - left <= 0) return nullptr;
-
-        int index = left;
-        for (int i = left; i < right; ++i)
-            if (nums[i] > nums[index])
-                index = i;
-
-        TreeNode* root = new TreeNode(nums[index]);
-
-        root->left = travel(nums, left, index);
-        root->right = travel(nums, index + 1, right);
-
-        return root;
-    }
-
     TreeNode* constructMaximumBinaryTree(vector<int>& nums) {
-        return travel(nums, 0, nums.size());
+        stack<TreeNode*> st;
+        for (auto& t : nums)
+        {
+            TreeNode* cur = new TreeNode(t);
+            while (st.size() && st.top()->val < t)
+            {
+                cur->left = st.top();
+                st.pop();
+            }
+            if (st.size())  // 说明栈顶一定比较大
+            {
+                st.top()->right = cur;
+            }
+            st.push(cur);
+        }
+        TreeNode* res;
+        while (st.size())
+        {
+            res = st.top();
+            st.pop();
+        }
+        return res;
     }
 };
-
 
 // @lc code=end
 
