@@ -1,7 +1,7 @@
 /*
  * @lc app=leetcode.cn id=222 lang=cpp
  *
- * [222] 瀹屽叏浜屽弶鏍戠殑鑺傜偣涓暟
+ * [222] 瀹屽叏浜屽弶鏍戠殑鑺傜偣涓?鏁?
  */
 
 // @lc code=start
@@ -114,5 +114,49 @@ public:
     }
 };
 
+// 太难了
+class Solution {
+public:
+    int countNodes(TreeNode* root) {
+        if (root == nullptr) {
+            return 0;
+        }
+        int level = 0;
+        TreeNode* node = root;
+        while (node->left != nullptr) {
+            level++;
+            node = node->left;
+        }
+        int low = 1 << level, high = (1 << (level + 1)) - 1;
+        while (low < high) {
+            int mid = (high - low + 1) / 2 + low;
+            if (exists(root, level, mid)) {
+                low = mid;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return low;
+    }
+
+    bool exists(TreeNode* root, int level, int k) {
+        int bits = 1 << (level - 1);
+        TreeNode* node = root;
+        while (node != nullptr && bits > 0) {
+            if (!(bits & k)) {
+                node = node->left;
+            } else {
+                node = node->right;
+            }
+            bits >>= 1;
+        }
+        return node != nullptr;
+    }
+};
+
+//作者：力扣官方题解
+//链接：https://leetcode.cn/problems/count-complete-tree-nodes/description/
+//来源：力扣（LeetCode）
+//著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
 // @lc code=end
 
