@@ -24,5 +24,29 @@ public:
     }
 };
 
+//
+class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+        unordered_map<char, char>sTot;
+        unordered_map<char, char>tTos;
+
+        int size = s.size();
+
+        for (int i = 0; i < size; ++i)
+        {
+            if (sTot.find(s[i]) == sTot.end() && tTos.find(t[i]) == tTos.end())
+            {
+                sTot[s[i]] = t[i];
+                tTos[t[i]] = s[i];
+            }
+
+            if (sTot[s[i]] != t[i] || tTos[t[i]] != s[i])
+                return false;
+        }
+
+        return true;
+    }
+};
 // @lc code=end
 
